@@ -10,11 +10,11 @@
         "prefix": ""
     },
     "aliases": {
-        "components": "@/Components/Base",
+        "components": "@/Components",
         "composables": "@/Composables",
         "utils": "@/Utils",
         "ui": "@/Components/Base",
-        "lib": "@/Lib"
+        "lib": "@/Utils"
     },
     "registries": {
         "@stacktrace": "https://ui.stacktrace.sk/registry/{name}.json"
