@@ -1,7 +1,9 @@
 <template>
-    <p>Welcome</p>
+    <p>{{ message }}</p>
 </template>
 
-<script setup>
-
+<script setup lang="ts">
+defineProps<{
+  message: string
+}>()
 </script>

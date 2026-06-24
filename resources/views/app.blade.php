@@ -5,10 +5,10 @@
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <title>{{ config('app.name', 'Laravel') }}</title>
         @fonts
-        @vite('resources/js/app.js')
+        @vite('resources/js/app.ts')
         <x-inertia::head />
     </head>
-    <body>
+    <body class="font-sans antialiased">
         <x-inertia::app />
     </body>
 </html>
