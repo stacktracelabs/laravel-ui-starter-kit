@@ -2,6 +2,7 @@
 
 namespace App\Http\Middleware;
 
+use App\Navigation;
 use Illuminate\Http\Request;
 use Inertia\Middleware;
 use Tighten\Ziggy\Ziggy;
@@ -16,6 +17,7 @@ class HandleInertiaRequests extends Middleware
             'auth' => [
                 'user' => $request->user(),
             ],
+            'navigation' => Navigation::forRequest($request),
             'sidebarOpen' => ! $request->hasCookie('sidebar_state') || $request->cookie('sidebar_state') === 'true',
             'ziggy' => [
                 ...(new Ziggy)->toArray(),

@@ -1,5 +1,5 @@
 <template>
-  <SidebarGroup v-for="item in navigation">
+  <SidebarGroup v-for="item in navigation" class="px-2 py-0">
     <template v-if="item.hasChildren">
       <SidebarGroupLabel v-if="item.title">{{ item.title }}</SidebarGroupLabel>
       <SidebarGroupContent>

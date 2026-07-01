@@ -5,6 +5,7 @@ import { createInertiaApp } from '@inertiajs/vue3'
 import { ZiggyVue } from 'ziggy-js'
 import AppLayout from '@/Layouts/AppLayout.vue'
 import AuthLayout from '@/Layouts/AuthLayout.vue'
+import RootLayout from '@/Layouts/RootLayout.vue'
 import SettingsLayout from '@/Layouts/Settings/Layout.vue'
 
 const appName = import.meta.env.VITE_APP_NAME || 'Laravel'
@@ -14,13 +15,13 @@ void createInertiaApp({
   layout: name => {
     switch (true) {
       case name === 'Welcome':
-        return null
+        return RootLayout
       case name.startsWith('Auth/'):
-        return AuthLayout
+        return [RootLayout, AuthLayout]
       case name.startsWith('Settings/'):
-        return [AppLayout, SettingsLayout]
+        return [RootLayout, AppLayout, SettingsLayout]
       default:
-        return AppLayout
+        return [RootLayout, AppLayout]
     }
   },
   progress: {
