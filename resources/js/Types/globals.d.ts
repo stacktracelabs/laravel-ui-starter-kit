@@ -1,5 +1,5 @@
-import { PageProps as InertiaPageProps } from '@inertiajs/core'
-import { AppPageProps } from '@/Types'
+import type { createHeadManager, Page, Router } from '@inertiajs/core'
+import type { SharedData } from '@/Types'
 
 // Extend ImportMeta interface for Vite...
 declare module 'vite/client' {
@@ -16,12 +16,21 @@ declare module 'vite/client' {
 }
 
 declare module '@inertiajs/core' {
-  interface PageProps extends InertiaPageProps, AppPageProps {}
+  export interface InertiaConfig {
+    sharedPageProps: SharedData
+    flashDataType: {
+      toast?: {
+        title: string
+        content: string | null
+        variant: 'default' | 'destructive'
+      }
+    }
+  }
 }
 
 declare module '@vue/runtime-core' {
   interface ComponentCustomProperties {
-    $inertia: typeof Router
+    $inertia: Router
     $page: Page
     $headManager: ReturnType<typeof createHeadManager>
   }
