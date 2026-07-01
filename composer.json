@@ -11,6 +11,8 @@
     "require": {
         "php": "^8.3",
         "inertiajs/inertia-laravel": "^3.1",
+        "laravel/chisel": "^0.1",
+        "laravel/fortify": "^1.37",
         "laravel/framework": "^13.8",
         "laravel/tinker": "^3.0",
         "stacktrace/ui": "^0.9.1",
@@ -61,6 +63,7 @@
             "@php artisan package:discover --ansi"
         ],
         "post-update-cmd": [
+            "@php artisan install:features --ansi",
             "@php artisan vendor:publish --tag=laravel-assets --ansi --force",
             "@php artisan boost:update --ansi"
         ],
@@ -78,7 +81,12 @@
     },
     "extra": {
         "laravel": {
-            "dont-discover": []
+            "dont-discover": [],
+            "installer": {
+                "post-create-project": [
+                    "@php artisan install:features --ansi"
+                ]
+            }
         }
     },
     "config": {
