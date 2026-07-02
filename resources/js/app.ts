@@ -1,18 +1,15 @@
 import '../css/app.css'
-import { initializeTheme } from './Composables/useAppearance'
 
 import { createInertiaApp } from '@inertiajs/vue3'
 import { ZiggyVue } from 'ziggy-js'
-import AppLayout from '@/Layouts/AppLayout.vue'
-import AuthLayout from '@/Layouts/AuthLayout.vue'
-import RootLayout from '@/Layouts/RootLayout.vue'
-import SettingsLayout from '@/Layouts/Settings/Layout.vue'
+import { initializeTheme } from '@/Composables'
+import { AppLayout, AuthLayout, RootLayout, SettingsLayout } from '@/Layouts'
 
 const appName = import.meta.env.VITE_APP_NAME || 'Laravel'
 
 void createInertiaApp({
-  title: title => (title ? `${title} - ${appName}` : appName),
-  layout: name => {
+  title: (title) => (title ? `${title} - ${appName}` : appName),
+  layout: (name) => {
     switch (true) {
       case name === 'Welcome':
         return RootLayout
@@ -27,9 +24,9 @@ void createInertiaApp({
   progress: {
     color: '#4B5563',
   },
-  withApp: app => {
+  withApp: (app) => {
     app.use(ZiggyVue)
-  }
+  },
 })
 
 // This will set light / dark mode on page load...
