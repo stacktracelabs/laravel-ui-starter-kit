@@ -65,7 +65,9 @@
       <!-- @end-chisel-email-verification -->
 
       <div class="flex items-center gap-4">
-        <Button :disabled="processing" data-test="update-profile-button">Save</Button>
+        <Button :processing="processing" :disabled="processing" data-test="update-profile-button">
+          Save
+        </Button>
       </div>
     </Form>
   </div>

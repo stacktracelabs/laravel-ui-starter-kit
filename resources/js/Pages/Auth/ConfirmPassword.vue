@@ -41,8 +41,12 @@
       </div>
 
       <div class="flex items-center">
-        <Button class="w-full" :disabled="processing" data-test="confirm-password-button">
-          <Spinner v-if="processing" />
+        <Button
+          class="w-full"
+          :processing="processing"
+          :disabled="processing"
+          data-test="confirm-password-button"
+        >
           Confirm password
         </Button>
       </div>
@@ -56,7 +60,6 @@ import { Button } from '@/Components/Base/Button'
 import { FormMessage } from '@/Components/Base/Form'
 import { Label } from '@/Components/Base/Label'
 import { PasswordInput } from '@/Components/Base/PasswordInput'
-import { Spinner } from '@/Components/Base/Spinner'
 /* @chisel-passkeys */
 import { PasskeyVerify } from '@/Components/Feature/Auth'
 /* @end-chisel-passkeys */

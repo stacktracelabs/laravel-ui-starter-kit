@@ -26,7 +26,7 @@
     <FormMessage v-if="error" :message="error" />
 
     <div class="flex gap-2">
-      <Button type="submit" :disabled="isLoading || !name.trim()">
+      <Button type="submit" :processing="isLoading" :disabled="isLoading || !name.trim()">
         {{ isLoading ? 'Registering...' : 'Register passkey' }}
       </Button>
       <Button type="button" variant="ghost" @click="handleCancel"> Cancel </Button>

@@ -23,7 +23,7 @@
           @success="showSetupModal = true"
           #default="{ processing }"
         >
-          <Button type="submit" :disabled="processing"> Enable 2FA </Button>
+          <Button type="submit" :processing="processing" :disabled="processing"> Enable 2FA </Button>
         </Form>
       </div>
     </div>
@@ -36,7 +36,14 @@
 
       <div class="relative inline">
         <Form :action="route('two-factor.disable')" method="delete" #default="{ processing }">
-          <Button variant="destructive" type="submit" :disabled="processing"> Disable 2FA </Button>
+          <Button
+            variant="destructive"
+            type="submit"
+            :processing="processing"
+            :disabled="processing"
+          >
+            Disable 2FA
+          </Button>
         </Form>
       </div>
 

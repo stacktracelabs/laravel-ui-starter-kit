@@ -53,10 +53,10 @@
       <Button
         type="submit"
         class="mt-4 w-full"
+        :processing="processing"
         :disabled="processing"
         data-test="reset-password-button"
       >
-        <Spinner v-if="processing" />
         Reset password
       </Button>
     </div>
@@ -71,7 +71,6 @@ import { FormMessage } from '@/Components/Base/Form'
 import { Input } from '@/Components/Base/Input'
 import { Label } from '@/Components/Base/Label'
 import { PasswordInput } from '@/Components/Base/PasswordInput'
-import { Spinner } from '@/Components/Base/Spinner'
 
 defineOptions({
   layout: {

@@ -1,9 +1,15 @@
 <template>
   <div v-if="isSupported">
     <div class="grid gap-2">
-      <Button type="button" variant="outline" class="w-full" @click="verify" :disabled="isLoading">
-        <Spinner v-if="isLoading" />
-        <KeyRound v-else class="h-4 w-4" />
+      <Button
+        type="button"
+        variant="outline"
+        class="w-full"
+        @click="verify"
+        :processing="isLoading"
+        :disabled="isLoading"
+      >
+        <KeyRound v-if="!isLoading" class="h-4 w-4" />
         {{
           isLoading
             ? (props.loadingLabel ?? 'Authenticating...')
@@ -37,7 +43,6 @@ import { KeyRound } from '@lucide/vue'
 import { Button } from '@/Components/Base/Button'
 import { FormMessage } from '@/Components/Base/Form'
 import { Separator } from '@/Components/Base/Separator'
-import { Spinner } from '@/Components/Base/Spinner'
 
 type Props = {
   routes?: {

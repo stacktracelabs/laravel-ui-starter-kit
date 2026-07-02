@@ -21,8 +21,12 @@
       </div>
 
       <div class="my-6 flex items-center justify-start">
-        <Button class="w-full" :disabled="processing" data-test="email-password-reset-link-button">
-          <Spinner v-if="processing" />
+        <Button
+          class="w-full"
+          :processing="processing"
+          :disabled="processing"
+          data-test="email-password-reset-link-button"
+        >
           Email password reset link
         </Button>
       </div>
@@ -46,7 +50,6 @@ import { Button } from '@/Components/Base/Button'
 import { FormMessage } from '@/Components/Base/Form'
 import { Input } from '@/Components/Base/Input'
 import { Label } from '@/Components/Base/Label'
-import { Spinner } from '@/Components/Base/Spinner'
 
 defineOptions({
   layout: {

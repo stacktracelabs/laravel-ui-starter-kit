@@ -14,8 +14,7 @@
     class="space-y-6 text-center"
     v-slot="{ processing }"
   >
-    <Button :disabled="processing" variant="secondary">
-      <Spinner v-if="processing" />
+    <Button :processing="processing" :disabled="processing" variant="secondary">
       Resend verification email
     </Button>
 
@@ -33,7 +32,6 @@
 <script setup lang="ts">
 import { Form, Head, Link } from '@inertiajs/vue3'
 import { Button } from '@/Components/Base/Button'
-import { Spinner } from '@/Components/Base/Spinner'
 
 defineOptions({
   layout: {

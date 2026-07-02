@@ -22,7 +22,7 @@
           @success="fetchRecoveryCodes"
           #default="{ processing }"
         >
-          <Button variant="secondary" type="submit" :disabled="processing">
+          <Button variant="secondary" type="submit" :processing="processing" :disabled="processing">
             <RefreshCw /> Regenerate codes
           </Button>
         </Form>

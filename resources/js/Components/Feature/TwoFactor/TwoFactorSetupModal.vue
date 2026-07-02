@@ -129,6 +129,7 @@
                 <Button
                   type="submit"
                   class="w-auto flex-1"
+                  :processing="processing"
                   :disabled="processing || code.length < 6"
                 >
                   Confirm

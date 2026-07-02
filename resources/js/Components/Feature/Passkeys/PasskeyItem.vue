@@ -46,7 +46,12 @@
           <DialogClose as-child>
             <Button variant="secondary">Cancel</Button>
           </DialogClose>
-          <Button variant="destructive" :disabled="isDeleting" @click="handleDelete">
+          <Button
+            variant="destructive"
+            :processing="isDeleting"
+            :disabled="isDeleting"
+            @click="handleDelete"
+          >
             {{ isDeleting ? 'Removing...' : 'Remove passkey' }}
           </Button>
         </DialogFooter>

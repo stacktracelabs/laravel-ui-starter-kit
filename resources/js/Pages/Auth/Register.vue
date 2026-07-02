@@ -70,10 +70,10 @@
         type="submit"
         class="mt-2 w-full"
         tabindex="5"
+        :processing="processing"
         :disabled="processing"
         data-test="register-user-button"
       >
-        <Spinner v-if="processing" />
         Create account
       </Button>
     </div>
@@ -98,7 +98,6 @@ import { FormMessage } from '@/Components/Base/Form'
 import { Input } from '@/Components/Base/Input'
 import { Label } from '@/Components/Base/Label'
 import { PasswordInput } from '@/Components/Base/PasswordInput'
-import { Spinner } from '@/Components/Base/Spinner'
 
 defineProps<{
   passwordRules: string

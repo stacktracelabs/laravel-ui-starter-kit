@@ -66,10 +66,10 @@
         type="submit"
         class="mt-4 w-full"
         :tabindex="4"
+        :processing="processing"
         :disabled="processing"
         data-test="login-button"
       >
-        <Spinner v-if="processing" />
         Log in
       </Button>
     </div>
@@ -97,7 +97,6 @@ import { FormMessage } from '@/Components/Base/Form'
 import { Input } from '@/Components/Base/Input'
 import { Label } from '@/Components/Base/Label'
 import { PasswordInput } from '@/Components/Base/PasswordInput'
-import { Spinner } from '@/Components/Base/Spinner'
 /* @chisel-registration */
 /* @end-chisel-registration */
 /* @chisel-passkeys */

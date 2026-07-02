@@ -66,6 +66,7 @@
               <Button
                 type="submit"
                 variant="destructive"
+                :processing="processing"
                 :disabled="processing"
                 data-test="confirm-delete-user-button"
               >
