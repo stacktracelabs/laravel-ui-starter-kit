@@ -111,6 +111,8 @@ return Chisel::script(__DIR__)
             $c->files(
                 'config/fortify.php',
                 $paths['profile'],
+                'routes/web.php',
+                'routes/settings.php',
                 'app/Providers/FortifyServiceProvider.php',
                 'app/Http/Controllers/Settings/ProfileController.php',
                 'tests/Feature/Settings/ProfileUpdateTest.php',
@@ -126,6 +128,8 @@ return Chisel::script(__DIR__)
                 'app/Providers/FortifyServiceProvider.php',
                 'app/Http/Controllers/Settings/ProfileController.php',
                 'tests/Feature/Settings/ProfileUpdateTest.php',
+                'routes/web.php',
+                'routes/settings.php',
                 $paths['profile'],
             )->removeSection('email-verification');
 
@@ -160,6 +164,15 @@ return Chisel::script(__DIR__)
 
             $c->php('tests/Feature/Auth/AuthenticationTest.php')
                 ->removeImport('Laravel\Fortify\Features');
+
+            $c->file('app/Models/User.php')
+                ->removeLinesContaining('@property string|null $two_factor_secret')
+                ->removeLinesContaining('@property string|null $two_factor_recovery_codes')
+                ->removeLinesContaining('@property Carbon|null $two_factor_confirmed_at')
+                ->replace(
+                    "#[Hidden(['password', 'two_factor_secret', 'two_factor_recovery_codes', 'remember_token'])]",
+                    "#[Hidden(['password', 'remember_token'])]",
+                );
 
             $c->files('app/Http/Controllers/Settings/SecurityController.php')
                 ->replace(

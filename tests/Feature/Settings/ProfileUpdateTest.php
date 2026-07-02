@@ -25,8 +25,11 @@ test('profile information can be updated', function () {
 
     expect($user)
         ->name->toBe('Test User')
-        ->email->toBe('test@example.com')
-        ->email_verified_at->toBeNull();
+        ->email->toBe('test@example.com');
+
+    /* @chisel-email-verification */
+    expect($user->email_verified_at)->toBeNull();
+    /* @end-chisel-email-verification */
 });
 
 /* @chisel-email-verification */
