@@ -161,7 +161,6 @@ import { InputOTP, InputOTPGroup, InputOTPSlot } from '@/Components/Base/InputOT
 import { Spinner } from '@/Components/Base/Spinner'
 import { useAppearance, useTwoFactorAuth } from '@/Composables'
 import type { TwoFactorConfigContent } from '@/Types'
-import { route } from 'ziggy-js'
 
 type Props = {
   requiresConfirmation: boolean

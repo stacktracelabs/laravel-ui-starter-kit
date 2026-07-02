@@ -380,7 +380,6 @@
 
 <script setup lang="ts">
 import { Head, Link, usePage } from '@inertiajs/vue3'
-import { route } from 'ziggy-js'
 /* @chisel-registration */
 /* @end-chisel-registration */
 

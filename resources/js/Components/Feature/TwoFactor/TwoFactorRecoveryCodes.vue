@@ -71,7 +71,6 @@ import { AlertError } from '@/Components/Base/Alert'
 import { Button } from '@/Components/Base/Button'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/Components/Base/Card'
 import { useTwoFactorAuth } from '@/Composables'
-import { route } from 'ziggy-js'
 
 const { recoveryCodesList, fetchRecoveryCodes, errors } = useTwoFactorAuth()
 const isRecoveryCodesVisible = ref<boolean>(false)

@@ -61,7 +61,6 @@ import { Button } from '@/Components/Base/Button'
 import { Heading } from '@/Components/Base/Heading'
 import { useTwoFactorAuth } from '@/Composables'
 import type { ManageTwoFactorProps } from './types'
-import { route } from 'ziggy-js'
 
 withDefaults(defineProps<ManageTwoFactorProps>(), {
   canManageTwoFactor: false,

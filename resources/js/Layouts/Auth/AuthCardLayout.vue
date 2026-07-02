@@ -28,7 +28,6 @@
 import { Link } from '@inertiajs/vue3'
 import { LogoIcon } from '@/Components/Base/Logo'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/Components/Base/Card'
-import { route } from 'ziggy-js'
 
 defineProps<{
   title?: string

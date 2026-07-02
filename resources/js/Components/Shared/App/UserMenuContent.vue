@@ -42,7 +42,6 @@ import {
 } from '@/Components/Base/DropdownMenu'
 import { UserInfo } from '@/Components/Shared/App'
 import type { User } from '@/Types'
-import { route } from 'ziggy-js'
 
 type Props = {
   user: User

@@ -28,7 +28,6 @@
 <script setup lang="ts">
 import { Link, usePage } from '@inertiajs/vue3'
 import { LogoIcon } from '@/Components/Base/Logo'
-import { route } from 'ziggy-js'
 
 const page = usePage()
 const name = page.props.name

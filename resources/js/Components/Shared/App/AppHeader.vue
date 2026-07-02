@@ -180,7 +180,6 @@ import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger } from '@/Co
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/Components/Base/Tooltip'
 import { UserMenuContent } from '@/Components/Shared/App'
 import { getInitials } from '@/Composables'
-import { route } from 'ziggy-js'
 
 const page = usePage()
 const auth = computed(() => page.props.auth)

@@ -25,7 +25,6 @@
 <script setup lang="ts">
 import { Link } from '@inertiajs/vue3'
 import { LogoIcon } from '@/Components/Base/Logo'
-import { route } from 'ziggy-js'
 
 defineProps<{
   title?: string

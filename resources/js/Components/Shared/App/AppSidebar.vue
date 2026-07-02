@@ -40,7 +40,6 @@ import {
   SidebarMenuButton,
   SidebarMenuItem,
 } from '@/Components/Base/Sidebar'
-import { route } from 'ziggy-js'
 
 const page = usePage()
 const navigation = computed(() => page.props.navigation)

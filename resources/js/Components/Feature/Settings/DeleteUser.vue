@@ -97,7 +97,6 @@ import { FormMessage } from '@/Components/Base/Form'
 import { Heading } from '@/Components/Base/Heading'
 import { Label } from '@/Components/Base/Label'
 import { PasswordInput } from '@/Components/Base/PasswordInput'
-import { route } from 'ziggy-js'
 
 const passwordInput = useTemplateRef('passwordInput')
 </script>
