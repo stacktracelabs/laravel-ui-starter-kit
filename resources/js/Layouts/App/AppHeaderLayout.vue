@@ -8,7 +8,5 @@
 </template>
 
 <script setup lang="ts">
-import { AppContent } from '@/Components/Shared'
-import { AppHeader } from '@/Components/Shared'
-import { AppShell } from '@/Components/Shared'
+import { AppContent, AppHeader, AppShell } from '@/Components/Shared/App'
 </script>

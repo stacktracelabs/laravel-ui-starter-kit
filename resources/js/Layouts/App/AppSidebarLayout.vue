@@ -9,8 +9,5 @@
 </template>
 
 <script setup lang="ts">
-import { AppContent } from '@/Components/Shared'
-import { AppShell } from '@/Components/Shared'
-import { AppSidebar } from '@/Components/Shared'
-import { AppSidebarHeader } from '@/Components/Shared'
+import { AppContent, AppShell, AppSidebar, AppSidebarHeader } from '@/Components/Shared/App'
 </script>
