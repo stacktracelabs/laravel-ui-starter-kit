@@ -147,7 +147,7 @@ import { Form } from '@inertiajs/vue3'
 import { useClipboard } from '@vueuse/core'
 import { Check, Copy, ScanLine } from '@lucide/vue'
 import { computed, nextTick, ref, useTemplateRef, watch } from 'vue'
-import { AlertError } from '@/Components/Shared'
+import { AlertError } from '@/Components/Base/Alert'
 import { Button } from '@/Components/Base/Button'
 import {
   Dialog,

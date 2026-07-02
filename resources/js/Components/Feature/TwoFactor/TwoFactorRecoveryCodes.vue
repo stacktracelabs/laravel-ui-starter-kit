@@ -67,7 +67,7 @@
 import { Form } from '@inertiajs/vue3'
 import { Eye, EyeOff, LockKeyhole, RefreshCw } from '@lucide/vue'
 import { nextTick, onMounted, ref, useTemplateRef } from 'vue'
-import { AlertError } from '@/Components/Shared'
+import { AlertError } from '@/Components/Base/Alert'
 import { Button } from '@/Components/Base/Button'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/Components/Base/Card'
 import { useTwoFactorAuth } from '@/Composables/useTwoFactorAuth'
