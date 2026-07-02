@@ -99,7 +99,6 @@ return Chisel::script(__DIR__)
 
             $c->files(
                 'app/Actions/Fortify/CreateNewUser.php',
-                'app/Http/Responses/RegisterResponse.php',
                 $paths['register'],
                 'tests/Feature/Auth/RegistrationTest.php',
             )->delete();
@@ -113,6 +112,8 @@ return Chisel::script(__DIR__)
                 'config/fortify.php',
                 $paths['profile'],
                 'app/Providers/FortifyServiceProvider.php',
+                'app/Http/Controllers/Settings/ProfileController.php',
+                'tests/Feature/Settings/ProfileUpdateTest.php',
             )->removeSectionMarkers('email-verification');
         },
         else: function (Chisel $c) use ($paths) {
@@ -123,11 +124,12 @@ return Chisel::script(__DIR__)
             $c->files(
                 'config/fortify.php',
                 'app/Providers/FortifyServiceProvider.php',
+                'app/Http/Controllers/Settings/ProfileController.php',
+                'tests/Feature/Settings/ProfileUpdateTest.php',
                 $paths['profile'],
             )->removeSection('email-verification');
 
             $c->files(
-                'app/Http/Responses/VerifyEmailResponse.php',
                 $paths['verify_email'],
                 'tests/Feature/Auth/EmailVerificationTest.php',
                 'tests/Feature/Auth/VerificationNotificationTest.php',
@@ -146,6 +148,9 @@ return Chisel::script(__DIR__)
                 'config/fortify.php',
                 'app/Providers/FortifyServiceProvider.php',
                 'app/Http/Controllers/Settings/SecurityController.php',
+                'tests/Feature/Auth/AuthenticationTest.php',
+                'tests/Feature/Settings/SecurityTest.php',
+                'resources/js/Composables/index.ts',
             )->removeSectionMarkers('2fa');
         },
         else: function (Chisel $c) use ($paths) {
@@ -153,12 +158,28 @@ return Chisel::script(__DIR__)
                 ->removeImport('Laravel\Fortify\TwoFactorAuthenticatable')
                 ->removeTrait('TwoFactorAuthenticatable');
 
+            $c->php('tests/Feature/Auth/AuthenticationTest.php')
+                ->removeImport('Laravel\Fortify\Features');
+
+            $c->files('app/Http/Controllers/Settings/SecurityController.php')
+                ->replace(
+                    'use App\Http\Requests\Settings\TwoFactorAuthenticationRequest;',
+                    'use Illuminate\Http\Request;',
+                )
+                ->replace(
+                    'public function edit(TwoFactorAuthenticationRequest $request): Response',
+                    'public function edit(Request $request): Response',
+                );
+
             $c->files(
                 'app/Models/User.php',
                 'database/factories/UserFactory.php',
                 'config/fortify.php',
                 'app/Providers/FortifyServiceProvider.php',
                 'app/Http/Controllers/Settings/SecurityController.php',
+                'tests/Feature/Auth/AuthenticationTest.php',
+                'tests/Feature/Settings/SecurityTest.php',
+                'resources/js/Composables/index.ts',
                 $paths['security'],
                 $paths['auth_types'],
             )->removeSection('2fa');
@@ -186,6 +207,7 @@ return Chisel::script(__DIR__)
                 'routes/settings.php',
                 'tests/Feature/Auth/AuthenticationTest.php',
                 'tests/Feature/Settings/SecurityTest.php',
+                $paths['auth_types'],
                 $paths['security'],
                 $paths['login'],
                 $paths['confirm_password'],
@@ -205,6 +227,7 @@ return Chisel::script(__DIR__)
                 'routes/settings.php',
                 'tests/Feature/Auth/AuthenticationTest.php',
                 'tests/Feature/Settings/SecurityTest.php',
+                $paths['auth_types'],
                 $paths['security'],
                 $paths['login'],
                 $paths['confirm_password'],
@@ -214,7 +237,6 @@ return Chisel::script(__DIR__)
 
             $c->files(...[
                 ...$paths['passkey_files'],
-                'app/Http/Responses/PasskeyLoginResponse.php',
                 'database/migrations/2024_01_01_000000_create_passkeys_table.php',
             ])->delete();
         },
@@ -222,13 +244,19 @@ return Chisel::script(__DIR__)
     ->selectedAny(
         'auth_features',
         ['2fa', 'passkeys'],
-        then: function (Chisel $c) use ($paths) {
-            $c->file($paths['security'])
-                ->removeSectionMarkers('2fa-or-passkeys');
-        },
-        else: function (Chisel $c) use ($paths) {
-            $c->file($paths['security'])
-                ->removeSection('2fa-or-passkeys');
+        else: function (Chisel $c) {
+            $c->php('app/Http/Controllers/Settings/SecurityController.php')
+                ->removeImport('Illuminate\Http\Request')
+                ->removeImport('Laravel\Fortify\Features');
+
+            $c->php('tests/Feature/Settings/SecurityTest.php')
+                ->removeImport('Laravel\Fortify\Features');
+
+            $c->file('app/Http/Controllers/Settings/SecurityController.php')
+                ->replace(
+                    'public function edit(Request $request): Response',
+                    'public function edit(): Response',
+                );
         },
     )
     ->selected(

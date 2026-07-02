@@ -7,6 +7,7 @@ use Laravel\Fortify\Features;
 
 use function Pest\Laravel\actingAs;
 
+/* @chisel-2fa */
 test('security page is displayed', function () {
     skipUnlessFortifyHas(Features::twoFactorAuthentication());
 
@@ -37,23 +38,18 @@ test('security page is displayed', function () {
             ->where('twoFactorEnabled', false),
         );
 });
+/* @end-chisel-2fa */
 
 /* @chisel-password-confirmation */
 test('security page requires password confirmation when enabled', function () {
-    skipUnlessFortifyHas(Features::twoFactorAuthentication());
-
     $user = User::factory()->create();
-
-    Features::twoFactorAuthentication([
-        'confirm' => true,
-        'confirmPassword' => true,
-    ]);
 
     actingAs($user)->get(route('security.edit'))
         ->assertRedirect(route('password.confirm'));
 });
 /* @end-chisel-password-confirmation */
 
+/* @chisel-2fa */
 test('security page renders without two factor when feature is disabled', function () {
     skipUnlessFortifyHas(Features::twoFactorAuthentication());
 
@@ -78,6 +74,7 @@ test('security page renders without two factor when feature is disabled', functi
             ->missing('requiresConfirmation'),
         );
 });
+/* @end-chisel-2fa */
 
 test('password can be updated', function () {
     $user = User::factory()->create();

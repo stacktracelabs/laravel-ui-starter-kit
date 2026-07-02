@@ -29,6 +29,7 @@ test('profile information can be updated', function () {
         ->email_verified_at->toBeNull();
 });
 
+/* @chisel-email-verification */
 test('email verification status is unchanged when the email address is unchanged', function () {
     $user = User::factory()->create();
 
@@ -41,6 +42,7 @@ test('email verification status is unchanged when the email address is unchanged
 
     expect($user->refresh()->email_verified_at)->not->toBeNull();
 });
+/* @end-chisel-email-verification */
 
 test('user can delete their account', function () {
     $user = User::factory()->create();

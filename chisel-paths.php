@@ -12,9 +12,12 @@ return [
     'auth_types' => 'resources/js/Types/auth.ts',
 
     'two_factor_files' => [
-        'resources/js/Components/ManageTwoFactor.vue',
-        'resources/js/Components/TwoFactorSetupModal.vue',
-        'resources/js/Components/TwoFactorRecoveryCodes.vue',
+        'app/Http/Requests/Settings/TwoFactorAuthenticationRequest.php',
+        'resources/js/Components/Feature/TwoFactor/index.ts',
+        'resources/js/Components/Feature/TwoFactor/ManageTwoFactor.vue',
+        'resources/js/Components/Feature/TwoFactor/TwoFactorRecoveryCodes.vue',
+        'resources/js/Components/Feature/TwoFactor/TwoFactorSetupModal.vue',
+        'resources/js/Components/Feature/TwoFactor/types.ts',
         'resources/js/Components/Base/InputOTP/index.ts',
         'resources/js/Components/Base/InputOTP/InputOTP.vue',
         'resources/js/Components/Base/InputOTP/InputOTPGroup.vue',
@@ -26,9 +29,12 @@ return [
     'two_factor_otp_package' => 'vue-input-otp',
 
     'passkey_files' => [
-        'resources/js/Components/PasskeyItem.vue',
-        'resources/js/Components/ManagePasskeys.vue',
-        'resources/js/Components/PasskeyRegister.vue',
-        'resources/js/Components/PasskeyVerify.vue',
+        'resources/js/Components/Feature/Auth/index.ts',
+        'resources/js/Components/Feature/Auth/PasskeyVerify.vue',
+        'resources/js/Components/Feature/Passkeys/index.ts',
+        'resources/js/Components/Feature/Passkeys/ManagePasskeys.vue',
+        'resources/js/Components/Feature/Passkeys/PasskeyItem.vue',
+        'resources/js/Components/Feature/Passkeys/PasskeyRegister.vue',
+        'resources/js/Components/Feature/Passkeys/types.ts',
     ],
 ];

@@ -25,6 +25,7 @@ test('users can authenticate using the login screen', function () {
     assertAuthenticated();
 });
 
+/* @chisel-2fa */
 test('users with two factor enabled are redirected to two factor challenge', function () {
     skipUnlessFortifyHas(Features::twoFactorAuthentication());
 
@@ -44,6 +45,7 @@ test('users with two factor enabled are redirected to two factor challenge', fun
 
     assertGuest();
 });
+/* @end-chisel-2fa */
 
 test('users can not authenticate with invalid password', function () {
     $user = User::factory()->create();
