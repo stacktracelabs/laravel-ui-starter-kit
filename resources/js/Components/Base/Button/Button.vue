@@ -3,6 +3,7 @@
     data-slot="button"
     :data-variant="variant"
     :data-size="size"
+    :data-processing="processing ? 'true' : 'false'"
     :as="as"
     :as-child="asChild"
     :class="cn(buttonVariants({ variant, size }), props.class)"
