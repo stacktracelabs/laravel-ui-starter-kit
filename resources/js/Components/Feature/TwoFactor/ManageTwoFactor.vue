@@ -59,7 +59,7 @@ import { TwoFactorRecoveryCodes } from '@/Components/Feature/TwoFactor'
 import { TwoFactorSetupModal } from '@/Components/Feature/TwoFactor'
 import { Button } from '@/Components/Base/Button'
 import { Heading } from '@/Components/Base/Heading'
-import { useTwoFactorAuth } from '@/Composables/useTwoFactorAuth'
+import { useTwoFactorAuth } from '@/Composables'
 import type { ManageTwoFactorProps } from './types'
 import { route } from 'ziggy-js'
 

@@ -159,8 +159,7 @@ import {
 import { FormMessage } from '@/Components/Base/Form'
 import { InputOTP, InputOTPGroup, InputOTPSlot } from '@/Components/Base/InputOTP'
 import { Spinner } from '@/Components/Base/Spinner'
-import { useAppearance } from '@/Composables/useAppearance'
-import { useTwoFactorAuth } from '@/Composables/useTwoFactorAuth'
+import { useAppearance, useTwoFactorAuth } from '@/Composables'
 import type { TwoFactorConfigContent } from '@/Types'
 import { route } from 'ziggy-js'
 
