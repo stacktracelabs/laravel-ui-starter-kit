@@ -4,10 +4,11 @@ import { createInertiaApp } from '@inertiajs/vue3'
 import { ZiggyVue } from 'ziggy-js'
 import { initializeTheme } from '@/Composables'
 import { AppLayout, AuthLayout, RootLayout, SettingsLayout } from '@/Layouts'
+import type { SharedData } from '@/Types'
 
 const appName = import.meta.env.VITE_APP_NAME || 'Laravel'
 
-void createInertiaApp({
+void createInertiaApp<SharedData>({
   title: (title) => (title ? `${title} - ${appName}` : appName),
   layout: (name) => {
     switch (true) {
@@ -24,8 +25,11 @@ void createInertiaApp({
   progress: {
     color: '#4B5563',
   },
-  withApp: (app) => {
-    app.use(ZiggyVue)
+  withApp: (app, { page }) => {
+    app.use(ZiggyVue, {
+      ...page.props.ziggy,
+      location: new URL(page.props.ziggy.location),
+    })
   },
 })
 
