@@ -11,7 +11,7 @@
         "laravel/fortify": "^1.37",
         "laravel/framework": "^13.8",
         "laravel/tinker": "^3.0",
-        "stacktrace/ui": "^0.9.1",
+        "stacktrace/ui": "^0.11.3",
         "tightenco/ziggy": "^2.6"
     },
     "require-dev": {

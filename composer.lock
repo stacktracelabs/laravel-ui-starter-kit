@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "b54bcdc0509fbe25d2ab12108f987fc2",
+    "content-hash": "d3db9830980e73bbea53b01529c05a33",
     "packages": [
         {
             "name": "bacon/bacon-qr-code",
@@ -4239,26 +4239,29 @@
         },
         {
             "name": "stacktrace/ui",
-            "version": "v0.9.1",
+            "version": "v0.11.3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/stacktracelabs/ui.git",
-                "reference": "d27864348800ec14c516795ec318f00361187eb9"
+                "reference": "bf7c048402ad61bbc86578d6a4b51d737b4be818"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/stacktracelabs/ui/zipball/d27864348800ec14c516795ec318f00361187eb9",
-                "reference": "d27864348800ec14c516795ec318f00361187eb9",
+                "url": "https://api.github.com/repos/stacktracelabs/ui/zipball/bf7c048402ad61bbc86578d6a4b51d737b4be818",
+                "reference": "bf7c048402ad61bbc86578d6a4b51d737b4be818",
                 "shasum": ""
             },
             "require": {
-                "inertiajs/inertia-laravel": "^2.0.21|^3.0",
-                "laravel/framework": "^10.0|^11.0|^12.0|^13.0",
-                "php": "^8.1"
+                "inertiajs/inertia-laravel": "^2.0.5|^3.0",
+                "laravel/framework": "^12.0|^13.0",
+                "php": "^8.2"
             },
             "require-dev": {
-                "pestphp/pest": "^2.0|^3.0|^4.0",
-                "pestphp/pest-plugin-laravel": "^2.0|^3.0|^4.0"
+                "pestphp/pest": "^3.0|^4.0",
+                "pestphp/pest-plugin-laravel": "^3.0|^4.0"
+            },
+            "suggest": {
+                "stacktrace/ui-icons-lucide": "Required to use the Icon component with Lucide icon pack."
             },
             "type": "library",
             "extra": {
@@ -4280,9 +4283,9 @@
             "description": "Component library for Laravel, Vue and Inertia.js based on shadcn-vue.",
             "support": {
                 "issues": "https://github.com/stacktracelabs/ui/issues",
-                "source": "https://github.com/stacktracelabs/ui/tree/v0.9.1"
+                "source": "https://github.com/stacktracelabs/ui/tree/v0.11.3"
             },
-            "time": "2026-06-24T11:39:45+00:00"
+            "time": "2026-07-12T07:57:32+00:00"
         },
         {
             "name": "symfony/clock",
