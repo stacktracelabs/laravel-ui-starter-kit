@@ -1,0 +1,21 @@
+# Backend Code Style
+
+- Prefer `protected` visibility over `private` for application class state and internal methods.
+- Always declare an explicit type on class constants, such as `protected const string SESSION_KEY = 'team_id';`.
+- Business classes should include concise property and method PHPDoc blocks that briefly describe intent.
+- Business class declarations, constructors, and constructor-promoted properties do not require PHPDoc blocks.
+- Do not add redundant `@param` or `@return` tags when native parameter and return types already describe the signature.
+- Keep ordinary method parameter lists on one line when they contain only a sensible number of arguments and remain readable. Prefer a slightly longer single-line signature over splitting a short parameter list; use multiple lines only when the arguments are genuinely numerous or long. Constructors are the exception and should usually list dependencies on separate lines.
+- Do not create temporary variables that are used only once unless naming the value materially improves readability. Inline one-off expressions when the resulting code remains clear.
+- On PHP 8.4 and newer, access members on newly instantiated objects directly, such as `new User()->getQualifiedKeyName()`. Do not wrap the `new` expression in parentheses.
+- Avoid explicit scalar casts when PHP return types, typed properties, or framework and model casts already provide the intended type. Rely on PHP's native type coercion and runtime value types; cast only to intentionally change representation or enforce a critical type boundary.
+- Do not define default column values in migrations unless there is no viable alternative. Set defaults explicitly in application code so business behavior remains visible to developers.
+- Never define `$fillable` or use the `#[Fillable]` attribute on Eloquent models. Disable mass-assignment guarding with `protected $guarded = false` and only pass explicitly constructed attribute arrays to Eloquent.
+- Do not use `forceFill()`. Use `fill()` with explicitly selected attributes instead.
+- Access Eloquent model attributes through dynamic properties, such as `$model->name` or `$model->pivot->role`. Do not call `getAttribute()` when reading a normal model attribute.
+- Prefer Eloquent relationship APIs such as `make()`, `save()`, `associate()`, and `dissociate()` over assigning foreign-key attributes directly when the relationship is available and the result remains clear. Treat this as a preference rather than a strict rule; direct foreign keys remain appropriate for bulk operations, migrations, or cases where relationship APIs reduce clarity.
+- Pass backed enum cases directly to Eloquent and query builder predicates. Do not unwrap them with `->value`; Laravel converts enum bindings automatically.
+- Order Eloquent model members as follows: traits, constants, properties, `casts()`, relationships, scopes, attributes and accessors, then all remaining methods.
+- Do not add comments or PHPDoc blocks to model constants, properties, `casts()` methods, or relationship methods.
+- Do not define default model attribute values through the `$attributes` property. Supply defaults explicitly at each model creation point, including factories.
+- Use `@property-read` for relationship properties documented in model class PHPDoc blocks because dynamic relationship properties are read-only.
