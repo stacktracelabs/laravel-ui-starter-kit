@@ -8,11 +8,9 @@ use App\Http\Requests\Settings\ProfileUpdateRequest;
 /* @chisel-email-verification */
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 /* @end-chisel-email-verification */
-use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Inertia\Inertia;
-use Inertia\Response;
 use StackTrace\Ui\Facades\Toast;
 
 class ProfileController extends Controller
@@ -20,7 +18,7 @@ class ProfileController extends Controller
     /**
      * Show the user's profile settings page.
      */
-    public function edit(Request $request): Response
+    public function edit(Request $request)
     {
         return Inertia::render('Settings/Profile', [
             /* @chisel-email-verification */
@@ -33,9 +31,12 @@ class ProfileController extends Controller
     /**
      * Update the user's profile information.
      */
-    public function update(ProfileUpdateRequest $request): RedirectResponse
+    public function update(ProfileUpdateRequest $request)
     {
-        $request->user()->fill($request->validated());
+        $request->user()->fill([
+            'name' => $request->input('name'),
+            'email' => $request->input('email'),
+        ]);
 
         /* @chisel-email-verification */
         if ($request->user()->isDirty('email')) {
@@ -53,7 +54,7 @@ class ProfileController extends Controller
     /**
      * Delete the user's profile.
      */
-    public function destroy(ProfileDeleteRequest $request): RedirectResponse
+    public function destroy(ProfileDeleteRequest $request)
     {
         $user = $request->user();
 

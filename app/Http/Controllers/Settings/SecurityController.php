@@ -5,11 +5,11 @@ namespace App\Http\Controllers\Settings;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Settings\PasswordUpdateRequest;
 use App\Http\Requests\Settings\TwoFactorAuthenticationRequest;
-use Illuminate\Http\RedirectResponse;
+use App\ViewModels\PasskeyViewModel;
 use Illuminate\Validation\Rules\Password;
 use Inertia\Inertia;
-use Inertia\Response;
 use Laravel\Fortify\Features;
+use Laravel\Passkeys\Passkey;
 use StackTrace\Ui\Facades\Toast;
 
 class SecurityController extends Controller
@@ -17,7 +17,7 @@ class SecurityController extends Controller
     /**
      * Show the user's security settings page.
      */
-    public function edit(TwoFactorAuthenticationRequest $request): Response
+    public function edit(TwoFactorAuthenticationRequest $request)
     {
         $props = [
             /* @chisel-2fa */
@@ -31,13 +31,7 @@ class SecurityController extends Controller
                     ->select(['id', 'name', 'credential', 'created_at', 'last_used_at'])
                     ->latest()
                     ->get()
-                    ->map(fn ($passkey) => [
-                        'id' => $passkey->id,
-                        'name' => $passkey->name,
-                        'authenticator' => $passkey->authenticator,
-                        'created_at_diff' => $passkey->created_at->diffForHumans(),
-                        'last_used_at_diff' => $passkey->last_used_at?->diffForHumans(),
-                    ])
+                    ->map(fn (Passkey $passkey) => new PasskeyViewModel($passkey))
                     ->values()
                     ->all()
                 : [],
@@ -60,10 +54,10 @@ class SecurityController extends Controller
     /**
      * Update the user's password.
      */
-    public function update(PasswordUpdateRequest $request): RedirectResponse
+    public function update(PasswordUpdateRequest $request)
     {
         $request->user()->update([
-            'password' => $request->password,
+            'password' => $request->input('password'),
         ]);
 
         Toast::default(__('Password updated.'));

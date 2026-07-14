@@ -1,17 +1,18 @@
 <template>
   <div class="space-y-6">
-    <Heading
-      variant="small"
+    <SectionHeading
+      compact
       title="Delete account"
       description="Delete your account and all of its resources"
     />
-    <div
-      class="space-y-4 rounded-lg border border-red-100 bg-red-50 p-4 dark:border-red-200/10 dark:bg-red-700/10"
-    >
-      <div class="relative space-y-0.5 text-red-600 dark:text-red-100">
-        <p class="font-medium">Warning</p>
-        <p class="text-sm">Please proceed with caution, this cannot be undone.</p>
-      </div>
+    <Alert variant="destructive">
+      <TriangleAlertIcon aria-hidden="true" />
+      <AlertTitle>Permanent action</AlertTitle>
+      <AlertDescription>
+        Deleting your account removes all of its resources and cannot be undone.
+      </AlertDescription>
+    </Alert>
+    <div>
       <Dialog>
         <DialogTrigger as-child>
           <Button variant="destructive" data-test="delete-user-button">Delete account</Button>
@@ -37,21 +38,22 @@
               </DialogDescription>
             </DialogHeader>
 
-            <div class="grid gap-2">
-              <Label for="password" class="sr-only">Password</Label>
+            <FormControl for="password" label="Password" :error="errors.password" required>
               <PasswordInput
                 id="password"
                 name="password"
                 ref="passwordInput"
                 placeholder="Password"
+                required
+                :aria-invalid="errors.password ? true : undefined"
               />
-              <FormMessage v-if="errors.password" :message="errors.password" />
-            </div>
+            </FormControl>
 
             <DialogFooter class="gap-2">
               <DialogClose as-child>
                 <Button
-                  variant="secondary"
+                  type="button"
+                  variant="outline"
                   @click="
                     () => {
                       clearErrors()
@@ -66,11 +68,10 @@
               <Button
                 type="submit"
                 variant="destructive"
-                :processing="processing"
                 :disabled="processing"
                 data-test="confirm-delete-user-button"
               >
-                Delete account
+                <ButtonState :processing="processing">Delete account</ButtonState>
               </Button>
             </DialogFooter>
           </Form>
@@ -82,8 +83,10 @@
 
 <script setup lang="ts">
 import { Form } from '@inertiajs/vue3'
+import { TriangleAlertIcon } from '@lucide/vue'
 import { useTemplateRef } from 'vue'
-import { Button } from '@/Components/Base/Button'
+import { Alert, AlertDescription, AlertTitle } from '@/Components/Base/Alert'
+import { Button, ButtonState } from '@/Components/Base/Button'
 import {
   Dialog,
   DialogClose,
@@ -94,10 +97,9 @@ import {
   DialogTitle,
   DialogTrigger,
 } from '@/Components/Base/Dialog'
-import { FormMessage } from '@/Components/Base/Form'
-import { Heading } from '@/Components/Base/Heading'
-import { Label } from '@/Components/Base/Label'
-import { PasswordInput } from '@/Components/Base/PasswordInput'
+import { FormControl } from '@/Components/Base/Form'
+import PasswordInput from '@/Components/Shared/PasswordInput.vue'
+import SectionHeading from '@/Components/Shared/SectionHeading.vue'
 
 const passwordInput = useTemplateRef('passwordInput')
 </script>

@@ -22,6 +22,13 @@ test('security page is displayed', function () {
     /* @end-chisel-passkeys */
 
     $user = User::factory()->create();
+    /* @chisel-passkeys */
+    $passkey = $user->passkeys()->create([
+        'name' => 'Work laptop',
+        'credential_id' => 'credential-id',
+        'credential' => [],
+    ]);
+    /* @end-chisel-passkeys */
 
     actingAs($user)
         /* @chisel-password-confirmation */
@@ -32,7 +39,12 @@ test('security page is displayed', function () {
             ->component('Settings/Security')
             /* @chisel-passkeys */
             ->where('canManagePasskeys', true)
-            ->where('passkeys', [])
+            ->where('passkeys.0.id', $passkey->id)
+            ->where('passkeys.0.name', 'Work laptop')
+            ->where('passkeys.0.authenticator', null)
+            ->where('passkeys.0.createdAtDiff', fn (mixed $value): bool => is_string($value))
+            ->where('passkeys.0.lastUsedAtDiff', null)
+            ->missing('passkeys.0.created_at_diff')
             /* @end-chisel-passkeys */
             ->where('canManageTwoFactor', true)
             ->where('twoFactorEnabled', false),

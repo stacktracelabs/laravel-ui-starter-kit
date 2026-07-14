@@ -44,6 +44,6 @@ import { UserInfo } from '@/Components/Shared/App'
 import { UserMenuContent } from '@/Components/Shared/App'
 
 const page = usePage()
-const user = computed(() => page.props.auth.user)
+const user = computed(() => page.props.auth.user!)
 const { isMobile, state } = useSidebar()
 </script>

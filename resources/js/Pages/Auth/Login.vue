@@ -1,9 +1,11 @@
 <template>
   <Head title="Log in" />
 
-  <div v-if="status" class="mb-4 text-center text-sm font-medium text-green-600">
-    {{ status }}
-  </div>
+  <Alert v-if="status" variant="positive">
+    <CircleCheckIcon aria-hidden="true" />
+    <AlertTitle>Request completed</AlertTitle>
+    <AlertDescription>{{ status }}</AlertDescription>
+  </Alert>
 
   <!-- @chisel-passkeys -->
   <PasskeyVerify />
@@ -17,8 +19,7 @@
     class="flex flex-col gap-6"
   >
     <div class="grid gap-6">
-      <div class="grid gap-2">
-        <Label for="email">Email address</Label>
+      <FormControl for="email" label="Email address" :error="errors.email" required>
         <Input
           id="email"
           type="email"
@@ -28,13 +29,13 @@
           :tabindex="1"
           autocomplete="email"
           placeholder="email@example.com"
+          :aria-invalid="errors.email ? true : undefined"
         />
-        <FormMessage v-if="errors.email" :message="errors.email" />
-      </div>
+      </FormControl>
 
-      <div class="grid gap-2">
+      <Field :data-invalid="errors.password ? true : undefined">
         <div class="flex items-center justify-between">
-          <Label for="password">Password</Label>
+          <FieldLabel for="password">Password</FieldLabel>
           <Link
             v-if="canResetPassword"
             :href="route('password.request')"
@@ -51,12 +52,13 @@
           :tabindex="2"
           autocomplete="current-password"
           placeholder="Password"
+          :aria-invalid="errors.password ? true : undefined"
         />
-        <FormMessage v-if="errors.password" :message="errors.password" />
-      </div>
+        <FieldError v-if="errors.password">{{ errors.password }}</FieldError>
+      </Field>
 
       <div class="flex items-center justify-between">
-        <Label for="remember" class="flex items-center space-x-3">
+        <Label for="remember" class="flex items-center gap-3">
           <Checkbox id="remember" name="remember" :tabindex="3" />
           <span>Remember me</span>
         </Label>
@@ -66,11 +68,10 @@
         type="submit"
         class="mt-4 w-full"
         :tabindex="4"
-        :processing="processing"
         :disabled="processing"
         data-test="login-button"
       >
-        Log in
+        <ButtonState :processing="processing">Log in</ButtonState>
       </Button>
     </div>
 
@@ -91,12 +92,15 @@
 
 <script setup lang="ts">
 import { Form, Head, Link } from '@inertiajs/vue3'
-import { Button } from '@/Components/Base/Button'
+import { CircleCheckIcon } from '@lucide/vue'
+import { Alert, AlertDescription, AlertTitle } from '@/Components/Base/Alert'
+import { Button, ButtonState } from '@/Components/Base/Button'
 import { Checkbox } from '@/Components/Base/Checkbox'
-import { FormMessage } from '@/Components/Base/Form'
+import { Field, FieldError, FieldLabel } from '@/Components/Base/Field'
+import { FormControl } from '@/Components/Base/Form'
 import { Input } from '@/Components/Base/Input'
 import { Label } from '@/Components/Base/Label'
-import { PasswordInput } from '@/Components/Base/PasswordInput'
+import PasswordInput from '@/Components/Shared/PasswordInput.vue'
 /* @chisel-registration */
 /* @end-chisel-registration */
 /* @chisel-passkeys */

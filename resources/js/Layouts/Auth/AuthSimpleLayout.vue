@@ -5,7 +5,7 @@
         <div class="flex flex-col items-center gap-4">
           <Link :href="route('home')" class="flex flex-col items-center gap-2 font-medium">
             <div class="mb-1 flex h-9 w-9 items-center justify-center rounded-md">
-              <LogoIcon class="size-9 fill-current text-[var(--foreground)] dark:text-white" />
+              <Logo class="size-9" role="img" aria-label="StackTrace" />
             </div>
             <span class="sr-only">{{ title }}</span>
           </Link>
@@ -24,7 +24,7 @@
 
 <script setup lang="ts">
 import { Link } from '@inertiajs/vue3'
-import { LogoIcon } from '@/Components/Base/Logo'
+import { Logo } from '@/Components/Base/Logo'
 
 defineProps<{
   title?: string

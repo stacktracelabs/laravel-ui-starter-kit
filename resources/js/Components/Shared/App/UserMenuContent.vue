@@ -7,7 +7,7 @@
   <DropdownMenuSeparator />
   <DropdownMenuGroup>
     <DropdownMenuItem v-for="item in navigation" :key="item.title" :as-child="true">
-      <NavigationButton :item="item" class="block w-full cursor-pointer" prefetch>
+      <NavigationButton :item="item" class="block w-full cursor-pointer">
         <NavigationButtonIcon class="mr-2 h-4 w-4" />
         {{ item.title }}
       </NavigationButton>

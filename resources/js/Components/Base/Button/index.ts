@@ -1,26 +1,34 @@
 import { cva, type VariantProps } from 'class-variance-authority'
+import type { InertiaLinkProps } from '@inertiajs/vue3'
 import type { PrimitiveProps } from 'reka-ui'
-import type { Component, HTMLAttributes } from 'vue'
+import type { HTMLAttributes } from 'vue'
 
 export { default as Button } from './Button.vue'
-export { default as LinkButton } from './LinkButton.vue'
+export { default as ButtonLink } from './ButtonLink.vue'
+export { default as ButtonState } from './ButtonState.vue'
 
 export interface ButtonProps extends PrimitiveProps {
-  as?: string | Component
   variant?: NonNullable<Parameters<typeof buttonVariants>[0]>['variant']
   size?: NonNullable<Parameters<typeof buttonVariants>[0]>['size']
   class?: HTMLAttributes['class']
+}
+
+export type ButtonLinkProps = InertiaLinkProps & {
+  variant?: ButtonVariants['variant']
+  size?: ButtonVariants['size']
+  class?: HTMLAttributes['class']
+}
+
+export interface ButtonStateProps {
   processing?: boolean
   recentlySuccessful?: boolean
-  recentlySuccessfulLabel?: string | undefined
-  label?: string
-  icon?: Component
-  contentClass?: string
-  plain?: boolean
+  processingLabel?: string
+  recentlySuccessfulLabel?: string
+  class?: HTMLAttributes['class']
 }
 
 export const buttonVariants = cva(
-  'inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium transition-all disabled:pointer-events-none disabled:data-[processing=false]:opacity-50 [&_svg]:pointer-events-none [&_svg:not([class*=\'size-\'])]:size-4 shrink-0 [&_svg]:shrink-0 outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-3 aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive',
+  'inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium transition-all disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg:not([class*=\'size-\'])]:size-4 shrink-0 [&_svg]:shrink-0 outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-3 aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive',
   {
     variants: {
       variant: {

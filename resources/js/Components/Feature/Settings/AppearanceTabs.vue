@@ -1,27 +1,40 @@
 <template>
-  <div class="inline-flex gap-1 rounded-lg bg-neutral-100 p-1 dark:bg-neutral-800">
-    <button
+  <ToggleGroup
+    v-model="selectedAppearance"
+    type="single"
+    variant="outline"
+    size="sm"
+    aria-label="Color theme"
+  >
+    <ToggleGroupItem
       v-for="{ value, Icon, label } in tabs"
       :key="value"
-      @click="updateAppearance(value)"
-      :class="[
-        'flex items-center rounded-md px-3.5 py-1.5 transition-colors',
-        appearance === value
-          ? 'bg-white shadow-xs dark:bg-neutral-700 dark:text-neutral-100'
-          : 'text-neutral-500 hover:bg-neutral-200/60 hover:text-black dark:text-neutral-400 dark:hover:bg-neutral-700/60',
-      ]"
+      :value="value"
+      :aria-label="`Use ${label.toLowerCase()} theme`"
     >
-      <component :is="Icon" class="-ml-1 h-4 w-4" />
-      <span class="ml-1.5 text-sm">{{ label }}</span>
-    </button>
-  </div>
+      <component :is="Icon" aria-hidden="true" />
+      <span>{{ label }}</span>
+    </ToggleGroupItem>
+  </ToggleGroup>
 </template>
 
 <script setup lang="ts">
 import { Monitor, Moon, Sun } from '@lucide/vue'
+import { computed } from 'vue'
+import { ToggleGroup, ToggleGroupItem } from '@/Components/Base/ToggleGroup'
 import { useAppearance } from '@/Composables'
+import type { Appearance } from '@/Types'
 
 const { appearance, updateAppearance } = useAppearance()
+
+const selectedAppearance = computed({
+  get: () => appearance.value,
+  set: (value: Appearance | undefined) => {
+    if (value && value !== appearance.value) {
+      updateAppearance(value)
+    }
+  },
+})
 
 const tabs = [
   { value: 'light', Icon: Sun, label: 'Light' },

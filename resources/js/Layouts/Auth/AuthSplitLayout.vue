@@ -5,7 +5,7 @@
     <div class="relative hidden h-full flex-col bg-muted p-10 text-white lg:flex dark:border-r">
       <div class="absolute inset-0 bg-zinc-900" />
       <Link :href="route('home')" class="relative z-20 flex items-center text-lg font-medium">
-        <LogoIcon class="mr-2 size-8 fill-current text-white" />
+        <Logo class="mr-2 size-8" aria-hidden="true" />
         {{ name }}
       </Link>
     </div>
@@ -27,7 +27,7 @@
 
 <script setup lang="ts">
 import { Link, usePage } from '@inertiajs/vue3'
-import { LogoIcon } from '@/Components/Base/Logo'
+import { Logo } from '@/Components/Base/Logo'
 
 const page = usePage()
 const name = page.props.name

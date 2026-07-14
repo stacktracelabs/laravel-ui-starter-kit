@@ -5,8 +5,8 @@
 </template>
 
 <script setup lang="ts">
-import { Breadcrumb, BreadcrumbNavigation } from '@/Components/Base/Breadcrumb'
 import type { Menu } from '@stacktrace/ui'
+import { Breadcrumb, BreadcrumbNavigation } from '@/Components/Base/Breadcrumb'
 
 type Props = {
   breadcrumbs: Menu

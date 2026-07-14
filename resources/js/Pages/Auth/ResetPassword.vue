@@ -9,36 +9,39 @@
     v-slot="{ errors, processing }"
   >
     <div class="grid gap-6">
-      <div class="grid gap-2">
-        <Label for="email">Email</Label>
+      <FormControl for="email" label="Email" :error="errors.email">
         <Input
           id="email"
           type="email"
           name="email"
           autocomplete="email"
           v-model="inputEmail"
-          class="mt-1 block w-full"
+          class="mt-1 w-full"
           readonly
+          :aria-invalid="errors.email ? true : undefined"
         />
-        <FormMessage v-if="errors.email" :message="errors.email" class="mt-2" />
-      </div>
+      </FormControl>
 
-      <div class="grid gap-2">
-        <Label for="password">Password</Label>
+      <FormControl for="password" label="Password" :error="errors.password" required>
         <PasswordInput
           id="password"
           name="password"
           autocomplete="new-password"
-          class="mt-1 block w-full"
+          class="mt-1 w-full"
           autofocus
           placeholder="Password"
           :passwordrules="passwordRules"
+          required
+          :aria-invalid="errors.password ? true : undefined"
         />
-        <FormMessage v-if="errors.password" :message="errors.password" />
-      </div>
+      </FormControl>
 
-      <div class="grid gap-2">
-        <Label for="password_confirmation"> Confirm password </Label>
+      <FormControl
+        for="password_confirmation"
+        label="Confirm password"
+        :error="errors.password_confirmation"
+        required
+      >
         <PasswordInput
           id="password_confirmation"
           name="password_confirmation"
@@ -46,18 +49,18 @@
           class="mt-1 block w-full"
           placeholder="Confirm password"
           :passwordrules="passwordRules"
+          required
+          :aria-invalid="errors.password_confirmation ? true : undefined"
         />
-        <FormMessage v-if="errors.password_confirmation" :message="errors.password_confirmation" />
-      </div>
+      </FormControl>
 
       <Button
         type="submit"
         class="mt-4 w-full"
-        :processing="processing"
         :disabled="processing"
         data-test="reset-password-button"
       >
-        Reset password
+        <ButtonState :processing="processing">Reset password</ButtonState>
       </Button>
     </div>
   </Form>
@@ -66,11 +69,10 @@
 <script setup lang="ts">
 import { Form, Head } from '@inertiajs/vue3'
 import { ref } from 'vue'
-import { Button } from '@/Components/Base/Button'
-import { FormMessage } from '@/Components/Base/Form'
+import { Button, ButtonState } from '@/Components/Base/Button'
+import { FormControl } from '@/Components/Base/Form'
 import { Input } from '@/Components/Base/Input'
-import { Label } from '@/Components/Base/Label'
-import { PasswordInput } from '@/Components/Base/PasswordInput'
+import PasswordInput from '@/Components/Shared/PasswordInput.vue'
 
 defineOptions({
   layout: {

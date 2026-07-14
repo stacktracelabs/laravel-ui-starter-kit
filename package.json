@@ -8,7 +8,7 @@
         "build-only": "vite build",
         "type-check": "vue-tsc --build",
         "lint": "run-s \"lint:*\"",
-        "lint:oxlint": "oxlint . --fix",
+        "lint:oxlint": "oxlint . --fix --ignore-pattern 'resources/js/Components/Base/**'",
         "lint:eslint": "eslint . --fix --cache",
         "format": "prettier --write --experimental-cli resources/js/"
     },

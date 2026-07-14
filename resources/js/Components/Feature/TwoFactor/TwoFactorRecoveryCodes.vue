@@ -9,7 +9,13 @@
     </CardHeader>
     <CardContent>
       <div class="flex flex-col gap-3 select-none sm:flex-row sm:items-center sm:justify-between">
-        <Button @click="toggleRecoveryCodesVisibility" class="w-fit">
+        <Button
+          type="button"
+          class="w-fit"
+          aria-controls="recovery-codes"
+          :aria-expanded="isRecoveryCodesVisible"
+          @click="toggleRecoveryCodesVisibility"
+        >
           <component :is="isRecoveryCodesVisible ? EyeOff : Eye" class="size-4" />
           {{ isRecoveryCodesVisible ? 'Hide' : 'View' }} recovery codes
         </Button>
@@ -22,31 +28,40 @@
           @success="fetchRecoveryCodes"
           #default="{ processing }"
         >
-          <Button variant="secondary" type="submit" :processing="processing" :disabled="processing">
-            <RefreshCw /> Regenerate codes
+          <Button variant="secondary" type="submit" :disabled="processing">
+            <ButtonState :processing="processing" processing-label="Regenerating recovery codes">
+              <RefreshCw aria-hidden="true" /> Regenerate codes
+            </ButtonState>
           </Button>
         </Form>
       </div>
       <div
+        id="recovery-codes"
         :class="[
           'relative overflow-hidden transition-all duration-300',
           isRecoveryCodesVisible ? 'h-auto opacity-100' : 'h-0 opacity-0',
         ]"
+        :aria-hidden="!isRecoveryCodesVisible"
       >
         <div v-if="errors?.length" class="mt-6">
-          <AlertError :errors="errors" />
+          <Alert variant="destructive">
+            <TriangleAlertIcon aria-hidden="true" />
+            <AlertTitle>Recovery codes unavailable</AlertTitle>
+            <AlertDescription>
+              <ul class="list-disc space-y-1 pl-4">
+                <li v-for="error in errors" :key="error">{{ error }}</li>
+              </ul>
+            </AlertDescription>
+          </Alert>
         </div>
         <div v-else class="mt-3 space-y-3">
           <div
             ref="recoveryCodeSectionRef"
             class="grid gap-1 rounded-lg bg-muted p-4 font-mono text-sm"
+            :aria-busy="!recoveryCodesList.length"
           >
-            <div v-if="!recoveryCodesList.length" class="space-y-2">
-              <div
-                v-for="n in 8"
-                :key="n"
-                class="h-4 animate-pulse rounded bg-muted-foreground/20"
-              ></div>
+            <div v-if="!recoveryCodesList.length" aria-hidden="true" class="grid gap-2">
+              <Skeleton v-for="n in 8" :key="n" class="h-4 motion-reduce:animate-none" />
             </div>
             <div v-else v-for="(code, index) in recoveryCodesList" :key="index">
               {{ code }}
@@ -65,11 +80,12 @@
 
 <script setup lang="ts">
 import { Form } from '@inertiajs/vue3'
-import { Eye, EyeOff, LockKeyhole, RefreshCw } from '@lucide/vue'
-import { nextTick, onMounted, ref, useTemplateRef } from 'vue'
-import { AlertError } from '@/Components/Base/Alert'
-import { Button } from '@/Components/Base/Button'
+import { Eye, EyeOff, LockKeyhole, RefreshCw, TriangleAlertIcon } from '@lucide/vue'
+import { nextTick, ref, useTemplateRef } from 'vue'
+import { Alert, AlertDescription, AlertTitle } from '@/Components/Base/Alert'
+import { Button, ButtonState } from '@/Components/Base/Button'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/Components/Base/Card'
+import { Skeleton } from '@/Components/Base/Skeleton'
 import { useTwoFactorAuth } from '@/Composables'
 
 const { recoveryCodesList, fetchRecoveryCodes, errors } = useTwoFactorAuth()
@@ -88,10 +104,4 @@ const toggleRecoveryCodesVisibility = async () => {
     recoveryCodeSectionRef.value?.scrollIntoView({ behavior: 'smooth' })
   }
 }
-
-onMounted(async () => {
-  if (!recoveryCodesList.value.length) {
-    await fetchRecoveryCodes()
-  }
-})
 </script>

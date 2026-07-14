@@ -1,6 +1,7 @@
 <?php
 
 use App\Models\User;
+use Inertia\Testing\AssertableInertia as Assert;
 
 use function Pest\Laravel\actingAs;
 use function Pest\Laravel\assertGuest;
@@ -8,7 +9,14 @@ use function Pest\Laravel\assertGuest;
 test('profile page is displayed', function () {
     $user = User::factory()->create();
 
-    actingAs($user)->get(route('profile.edit'))->assertOk();
+    actingAs($user)
+        ->get(route('profile.edit'))
+        ->assertInertia(fn (Assert $page) => $page
+            ->component('Settings/Profile')
+            ->where('auth.user.id', $user->id)
+            ->where('navigation.breadcrumbs.0.title', 'Settings')
+            ->where('navigation.breadcrumbs.1.title', 'Profile'),
+        );
 });
 
 test('profile information can be updated', function () {

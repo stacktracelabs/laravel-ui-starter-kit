@@ -4,8 +4,8 @@
   <h1 class="sr-only">Appearance settings</h1>
 
   <div class="space-y-6">
-    <Heading
-      variant="small"
+    <SectionHeading
+      compact
       title="Appearance settings"
       description="Update the appearance settings for your account"
     />
@@ -16,5 +16,5 @@
 <script setup lang="ts">
 import { Head } from '@inertiajs/vue3'
 import { AppearanceTabs } from '@/Components/Feature/Settings'
-import { Heading } from '@/Components/Base/Heading'
+import SectionHeading from '@/Components/Shared/SectionHeading.vue'
 </script>

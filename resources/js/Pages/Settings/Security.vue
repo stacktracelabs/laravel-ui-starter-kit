@@ -4,8 +4,8 @@
   <h1 class="sr-only">Security settings</h1>
 
   <div class="space-y-6">
-    <Heading
-      variant="small"
+    <SectionHeading
+      compact
       title="Update password"
       description="Ensure your account is using a long, random password to stay secure"
     />
@@ -21,51 +21,48 @@
       class="space-y-6"
       v-slot="{ errors, processing }"
     >
-      <div class="grid gap-2">
-        <Label for="current_password">Current password</Label>
+      <FormControl for="current_password" label="Current password" :error="errors.current_password">
         <PasswordInput
           id="current_password"
           name="current_password"
-          class="mt-1 block w-full"
+          class="mt-1 w-full"
           autocomplete="current-password"
           placeholder="Current password"
+          :aria-invalid="errors.current_password ? true : undefined"
         />
-        <FormMessage v-if="errors.current_password" :message="errors.current_password" />
-      </div>
+      </FormControl>
 
-      <div class="grid gap-2">
-        <Label for="password">New password</Label>
+      <FormControl for="password" label="New password" :error="errors.password">
         <PasswordInput
           id="password"
           name="password"
-          class="mt-1 block w-full"
+          class="mt-1 w-full"
           autocomplete="new-password"
           placeholder="New password"
           :passwordrules="props.passwordRules"
+          :aria-invalid="errors.password ? true : undefined"
         />
-        <FormMessage v-if="errors.password" :message="errors.password" />
-      </div>
+      </FormControl>
 
-      <div class="grid gap-2">
-        <Label for="password_confirmation">Confirm password</Label>
+      <FormControl
+        for="password_confirmation"
+        label="Confirm password"
+        :error="errors.password_confirmation"
+      >
         <PasswordInput
           id="password_confirmation"
           name="password_confirmation"
-          class="mt-1 block w-full"
+          class="mt-1 w-full"
           autocomplete="new-password"
           placeholder="Confirm password"
           :passwordrules="props.passwordRules"
+          :aria-invalid="errors.password_confirmation ? true : undefined"
         />
-        <FormMessage v-if="errors.password_confirmation" :message="errors.password_confirmation" />
-      </div>
+      </FormControl>
 
       <div class="flex items-center gap-4">
-        <Button
-          :processing="processing"
-          :disabled="processing"
-          data-test="update-password-button"
-        >
-          Save
+        <Button type="submit" :disabled="processing" data-test="update-password-button">
+          <ButtonState :processing="processing">Save</ButtonState>
         </Button>
       </div>
     </Form>
@@ -86,11 +83,10 @@
 
 <script setup lang="ts">
 import { Form, Head } from '@inertiajs/vue3'
-import { Button } from '@/Components/Base/Button'
-import { FormMessage } from '@/Components/Base/Form'
-import { Heading } from '@/Components/Base/Heading'
-import { Label } from '@/Components/Base/Label'
-import { PasswordInput } from '@/Components/Base/PasswordInput'
+import { Button, ButtonState } from '@/Components/Base/Button'
+import { FormControl } from '@/Components/Base/Form'
+import PasswordInput from '@/Components/Shared/PasswordInput.vue'
+import SectionHeading from '@/Components/Shared/SectionHeading.vue'
 /* @chisel-passkeys */
 import type { ManagePasskeysProps } from '@/Components/Feature/Passkeys'
 import { ManagePasskeys } from '@/Components/Feature/Passkeys'

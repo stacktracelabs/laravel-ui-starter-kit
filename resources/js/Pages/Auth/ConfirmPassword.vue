@@ -26,28 +26,26 @@
     v-slot="{ errors, processing }"
   >
     <div class="space-y-6">
-      <div class="grid gap-2">
-        <Label htmlFor="password">Password</Label>
+      <FormControl for="password" label="Password" :error="errors.password" required>
         <PasswordInput
           id="password"
           name="password"
-          class="mt-1 block w-full"
+          class="mt-1 w-full"
           required
           autocomplete="current-password"
           autofocus
+          :aria-invalid="errors.password ? true : undefined"
         />
-
-        <FormMessage v-if="errors.password" :message="errors.password" />
-      </div>
+      </FormControl>
 
       <div class="flex items-center">
         <Button
+          type="submit"
           class="w-full"
-          :processing="processing"
           :disabled="processing"
           data-test="confirm-password-button"
         >
-          Confirm password
+          <ButtonState :processing="processing">Confirm password</ButtonState>
         </Button>
       </div>
     </div>
@@ -56,10 +54,9 @@
 
 <script setup lang="ts">
 import { Form, Head } from '@inertiajs/vue3'
-import { Button } from '@/Components/Base/Button'
-import { FormMessage } from '@/Components/Base/Form'
-import { Label } from '@/Components/Base/Label'
-import { PasswordInput } from '@/Components/Base/PasswordInput'
+import { Button, ButtonState } from '@/Components/Base/Button'
+import { FormControl } from '@/Components/Base/Form'
+import PasswordInput from '@/Components/Shared/PasswordInput.vue'
 /* @chisel-passkeys */
 import { PasskeyVerify } from '@/Components/Feature/Auth'
 /* @end-chisel-passkeys */

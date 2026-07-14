@@ -1,12 +1,13 @@
 <template>
   <Head title="Email verification" />
 
-  <div
-    v-if="status === 'verification-link-sent'"
-    class="mb-4 text-center text-sm font-medium text-green-600"
-  >
-    A new verification link has been sent to the email address associated with your account.
-  </div>
+  <Alert v-if="status === 'verification-link-sent'" variant="positive">
+    <MailCheckIcon aria-hidden="true" />
+    <AlertTitle>Verification link sent</AlertTitle>
+    <AlertDescription>
+      A new verification link has been sent to the email address associated with your account.
+    </AlertDescription>
+  </Alert>
 
   <Form
     :action="route('verification.send')"
@@ -14,8 +15,8 @@
     class="space-y-6 text-center"
     v-slot="{ processing }"
   >
-    <Button :processing="processing" :disabled="processing" variant="secondary">
-      Resend verification email
+    <Button type="submit" :disabled="processing" variant="secondary">
+      <ButtonState :processing="processing">Resend verification email</ButtonState>
     </Button>
 
     <Link
@@ -31,7 +32,9 @@
 
 <script setup lang="ts">
 import { Form, Head, Link } from '@inertiajs/vue3'
-import { Button } from '@/Components/Base/Button'
+import { MailCheckIcon } from '@lucide/vue'
+import { Alert, AlertDescription, AlertTitle } from '@/Components/Base/Alert'
+import { Button, ButtonState } from '@/Components/Base/Button'
 
 defineOptions({
   layout: {

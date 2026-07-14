@@ -9,8 +9,7 @@
     class="flex flex-col gap-6"
   >
     <div class="grid gap-6">
-      <div class="grid gap-2">
-        <Label for="name">Name</Label>
+      <FormControl for="name" label="Name" :error="errors.name" required>
         <Input
           id="name"
           type="text"
@@ -20,12 +19,11 @@
           autocomplete="name"
           name="name"
           placeholder="Full name"
+          :aria-invalid="errors.name ? true : undefined"
         />
-        <FormMessage v-if="errors.name" :message="errors.name" />
-      </div>
+      </FormControl>
 
-      <div class="grid gap-2">
-        <Label for="email">Email address</Label>
+      <FormControl for="email" label="Email address" :error="errors.email" required>
         <Input
           id="email"
           type="email"
@@ -34,12 +32,11 @@
           autocomplete="email"
           name="email"
           placeholder="email@example.com"
+          :aria-invalid="errors.email ? true : undefined"
         />
-        <FormMessage v-if="errors.email" :message="errors.email" />
-      </div>
+      </FormControl>
 
-      <div class="grid gap-2">
-        <Label for="password">Password</Label>
+      <FormControl for="password" label="Password" :error="errors.password" required>
         <PasswordInput
           id="password"
           required
@@ -48,12 +45,16 @@
           name="password"
           placeholder="Password"
           :passwordrules="passwordRules"
+          :aria-invalid="errors.password ? true : undefined"
         />
-        <FormMessage v-if="errors.password" :message="errors.password" />
-      </div>
+      </FormControl>
 
-      <div class="grid gap-2">
-        <Label for="password_confirmation">Confirm password</Label>
+      <FormControl
+        for="password_confirmation"
+        label="Confirm password"
+        :error="errors.password_confirmation"
+        required
+      >
         <PasswordInput
           id="password_confirmation"
           required
@@ -62,19 +63,18 @@
           name="password_confirmation"
           placeholder="Confirm password"
           :passwordrules="passwordRules"
+          :aria-invalid="errors.password_confirmation ? true : undefined"
         />
-        <FormMessage v-if="errors.password_confirmation" :message="errors.password_confirmation" />
-      </div>
+      </FormControl>
 
       <Button
         type="submit"
         class="mt-2 w-full"
         tabindex="5"
-        :processing="processing"
         :disabled="processing"
         data-test="register-user-button"
       >
-        Create account
+        <ButtonState :processing="processing">Create account</ButtonState>
       </Button>
     </div>
 
@@ -93,11 +93,10 @@
 
 <script setup lang="ts">
 import { Form, Head, Link } from '@inertiajs/vue3'
-import { Button } from '@/Components/Base/Button'
-import { FormMessage } from '@/Components/Base/Form'
+import { Button, ButtonState } from '@/Components/Base/Button'
+import { FormControl } from '@/Components/Base/Form'
 import { Input } from '@/Components/Base/Input'
-import { Label } from '@/Components/Base/Label'
-import { PasswordInput } from '@/Components/Base/PasswordInput'
+import PasswordInput from '@/Components/Shared/PasswordInput.vue'
 
 defineProps<{
   passwordRules: string

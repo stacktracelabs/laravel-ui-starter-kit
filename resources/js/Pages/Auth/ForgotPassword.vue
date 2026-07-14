@@ -1,14 +1,15 @@
 <template>
   <Head title="Forgot password" />
 
-  <div v-if="status" class="mb-4 text-center text-sm font-medium text-green-600">
-    {{ status }}
-  </div>
+  <Alert v-if="status" variant="positive">
+    <MailCheckIcon aria-hidden="true" />
+    <AlertTitle>Reset link sent</AlertTitle>
+    <AlertDescription>{{ status }}</AlertDescription>
+  </Alert>
 
   <div class="space-y-6">
     <Form :action="route('password.email')" method="post" v-slot="{ errors, processing }">
-      <div class="grid gap-2">
-        <Label for="email">Email address</Label>
+      <FormControl for="email" label="Email address" :error="errors.email" required>
         <Input
           id="email"
           type="email"
@@ -16,18 +17,19 @@
           autocomplete="off"
           autofocus
           placeholder="email@example.com"
+          required
+          :aria-invalid="errors.email ? true : undefined"
         />
-        <FormMessage v-if="errors.email" :message="errors.email" />
-      </div>
+      </FormControl>
 
       <div class="my-6 flex items-center justify-start">
         <Button
+          type="submit"
           class="w-full"
-          :processing="processing"
           :disabled="processing"
           data-test="email-password-reset-link-button"
         >
-          Email password reset link
+          <ButtonState :processing="processing">Email password reset link</ButtonState>
         </Button>
       </div>
     </Form>
@@ -46,10 +48,11 @@
 
 <script setup lang="ts">
 import { Form, Head, Link } from '@inertiajs/vue3'
-import { Button } from '@/Components/Base/Button'
-import { FormMessage } from '@/Components/Base/Form'
+import { MailCheckIcon } from '@lucide/vue'
+import { Alert, AlertDescription, AlertTitle } from '@/Components/Base/Alert'
+import { Button, ButtonState } from '@/Components/Base/Button'
+import { FormControl } from '@/Components/Base/Form'
 import { Input } from '@/Components/Base/Input'
-import { Label } from '@/Components/Base/Label'
 
 defineOptions({
   layout: {

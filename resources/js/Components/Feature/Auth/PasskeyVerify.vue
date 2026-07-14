@@ -1,25 +1,21 @@
 <template>
   <div v-if="isSupported">
     <div class="grid gap-2">
-      <Button
-        type="button"
-        variant="outline"
-        class="w-full"
-        @click="verify"
-        :processing="isLoading"
-        :disabled="isLoading"
-      >
-        <KeyRound v-if="!isLoading" class="h-4 w-4" />
-        {{
-          isLoading
-            ? (props.loadingLabel ?? 'Authenticating...')
-            : (props.label ?? 'Sign in with a passkey')
-        }}
+      <Button type="button" variant="outline" class="w-full" @click="verify" :disabled="isLoading">
+        <ButtonState
+          :processing="isLoading"
+          :processing-label="props.loadingLabel ?? 'Authenticating'"
+        >
+          <KeyRound aria-hidden="true" />
+          {{ props.label ?? 'Sign in with a passkey' }}
+        </ButtonState>
       </Button>
 
-      <div v-if="error" class="text-center">
-        <FormMessage :message="error" />
-      </div>
+      <Alert v-if="error" variant="destructive">
+        <TriangleAlertIcon aria-hidden="true" />
+        <AlertTitle>Passkey authentication failed</AlertTitle>
+        <AlertDescription>{{ error }}</AlertDescription>
+      </Alert>
     </div>
 
     <div class="relative my-6">
@@ -39,9 +35,9 @@
 import type { UrlMethodPair } from '@inertiajs/core'
 import { router } from '@inertiajs/vue3'
 import { usePasskeyVerify } from '@laravel/passkeys/vue'
-import { KeyRound } from '@lucide/vue'
-import { Button } from '@/Components/Base/Button'
-import { FormMessage } from '@/Components/Base/Form'
+import { KeyRound, TriangleAlertIcon } from '@lucide/vue'
+import { Alert, AlertDescription, AlertTitle } from '@/Components/Base/Alert'
+import { Button, ButtonState } from '@/Components/Base/Button'
 import { Separator } from '@/Components/Base/Separator'
 
 type Props = {

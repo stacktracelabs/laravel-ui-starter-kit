@@ -3,7 +3,7 @@
     <div class="flex w-full max-w-md flex-col gap-6">
       <Link :href="route('home')" class="flex items-center gap-2 self-center font-medium">
         <div class="flex h-9 w-9 items-center justify-center">
-          <LogoIcon class="size-9 fill-current text-black dark:text-white" />
+          <Logo class="size-9" role="img" aria-label="StackTrace" />
         </div>
       </Link>
 
@@ -26,7 +26,7 @@
 
 <script setup lang="ts">
 import { Link } from '@inertiajs/vue3'
-import { LogoIcon } from '@/Components/Base/Logo'
+import { Logo } from '@/Components/Base/Logo'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/Components/Base/Card'
 
 defineProps<{

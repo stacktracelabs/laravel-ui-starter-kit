@@ -11,19 +11,30 @@
         @error="code = ''"
         #default="{ errors, processing, clearErrors }"
       >
-        <input type="hidden" name="code" :value="code" />
-        <div class="flex flex-col items-center justify-center space-y-3 text-center">
+        <Field class="items-center text-center" :data-invalid="errors.code ? true : undefined">
+          <FieldLabel for="otp">Six-digit authentication code</FieldLabel>
           <div class="flex w-full items-center justify-center">
-            <InputOTP id="otp" v-model="code" :maxlength="6" :disabled="processing" autofocus>
+            <InputOTP
+              id="otp"
+              v-model="code"
+              name="code"
+              :maxlength="6"
+              :pattern="REGEXP_ONLY_DIGITS"
+              autocomplete="one-time-code"
+              inputmode="numeric"
+              :disabled="processing"
+              autofocus
+              :aria-invalid="errors.code ? true : undefined"
+            >
               <InputOTPGroup>
                 <InputOTPSlot v-for="index in 6" :key="index" :index="index - 1" />
               </InputOTPGroup>
             </InputOTP>
           </div>
-          <FormMessage v-if="errors.code" :message="errors.code" />
-        </div>
-        <Button type="submit" class="w-full" :processing="processing" :disabled="processing">
-          Continue
+          <FieldError v-if="errors.code">{{ errors.code }}</FieldError>
+        </Field>
+        <Button type="submit" class="w-full" :disabled="processing">
+          <ButtonState :processing="processing">Continue</ButtonState>
         </Button>
         <div class="text-center text-sm text-muted-foreground">
           <span>or you can </span>
@@ -46,16 +57,24 @@
         reset-on-error
         #default="{ errors, processing, clearErrors }"
       >
-        <Input
-          name="recovery_code"
-          type="text"
-          placeholder="Enter recovery code"
-          :autofocus="showRecoveryInput"
+        <FormControl
+          for="recovery_code"
+          label="Recovery code"
+          :error="errors.recovery_code"
           required
-        />
-        <FormMessage v-if="errors.recovery_code" :message="errors.recovery_code" />
-        <Button type="submit" class="w-full" :processing="processing" :disabled="processing">
-          Continue
+        >
+          <Input
+            id="recovery_code"
+            name="recovery_code"
+            type="text"
+            placeholder="Enter recovery code"
+            :autofocus="showRecoveryInput"
+            required
+            :aria-invalid="errors.recovery_code ? true : undefined"
+          />
+        </FormControl>
+        <Button type="submit" class="w-full" :disabled="processing">
+          <ButtonState :processing="processing">Continue</ButtonState>
         </Button>
 
         <div class="text-center text-sm text-muted-foreground">
@@ -76,8 +95,10 @@
 <script setup lang="ts">
 import { Form, Head, setLayoutProps } from '@inertiajs/vue3'
 import { computed, ref, watchEffect } from 'vue'
-import { Button } from '@/Components/Base/Button'
-import { FormMessage } from '@/Components/Base/Form'
+import { REGEXP_ONLY_DIGITS } from 'vue-input-otp'
+import { Button, ButtonState } from '@/Components/Base/Button'
+import { Field, FieldError, FieldLabel } from '@/Components/Base/Field'
+import { FormControl } from '@/Components/Base/Form'
 import { Input } from '@/Components/Base/Input'
 import { InputOTP, InputOTPGroup, InputOTPSlot } from '@/Components/Base/InputOTP'
 import type { TwoFactorConfigContent } from '@/Types'

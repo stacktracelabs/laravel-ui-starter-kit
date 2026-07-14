@@ -1,11 +1,19 @@
 <template>
-  <Sidebar collapsible="icon" variant="inset">
+  <Sidebar collapsible="offcanvas" variant="inset">
     <SidebarHeader>
       <SidebarMenu>
         <SidebarMenuItem>
           <SidebarMenuButton size="lg" as-child>
             <Link :href="route('dashboard')">
-              <Logo />
+              <span
+                class="flex aspect-square size-8 items-center justify-center rounded-md bg-sidebar-primary text-sidebar-primary-foreground"
+              >
+                <Logo class="size-5" aria-hidden="true" />
+              </span>
+              <span class="grid flex-1 text-left text-sm leading-tight">
+                <span class="truncate font-semibold">{{ page.props.name }}</span>
+                <span class="truncate text-xs text-sidebar-foreground/70">StackTrace UI</span>
+              </span>
             </Link>
           </SidebarMenuButton>
         </SidebarMenuItem>

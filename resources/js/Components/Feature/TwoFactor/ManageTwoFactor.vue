@@ -1,7 +1,7 @@
 <template>
   <div v-if="canManageTwoFactor" class="space-y-6">
-    <Heading
-      variant="small"
+    <SectionHeading
+      compact
       title="Two-factor authentication"
       description="Manage your two-factor authentication settings"
     />
@@ -13,7 +13,7 @@
       </p>
 
       <div>
-        <Button v-if="hasSetupData" @click="showSetupModal = true">
+        <Button v-if="hasSetupData" type="button" @click="showSetupModal = true">
           <ShieldCheck />Continue setup
         </Button>
         <Form
@@ -23,7 +23,9 @@
           @success="showSetupModal = true"
           #default="{ processing }"
         >
-          <Button type="submit" :processing="processing" :disabled="processing"> Enable 2FA </Button>
+          <Button type="submit" :disabled="processing">
+            <ButtonState :processing="processing">Enable 2FA</ButtonState>
+          </Button>
         </Form>
       </div>
     </div>
@@ -36,13 +38,8 @@
 
       <div class="relative inline">
         <Form :action="route('two-factor.disable')" method="delete" #default="{ processing }">
-          <Button
-            variant="destructive"
-            type="submit"
-            :processing="processing"
-            :disabled="processing"
-          >
-            Disable 2FA
+          <Button variant="destructive" type="submit" :disabled="processing">
+            <ButtonState :processing="processing">Disable 2FA</ButtonState>
           </Button>
         </Form>
       </div>
@@ -64,8 +61,8 @@ import { ShieldCheck } from '@lucide/vue'
 import { onUnmounted, ref } from 'vue'
 import { TwoFactorRecoveryCodes } from '@/Components/Feature/TwoFactor'
 import { TwoFactorSetupModal } from '@/Components/Feature/TwoFactor'
-import { Button } from '@/Components/Base/Button'
-import { Heading } from '@/Components/Base/Heading'
+import { Button, ButtonState } from '@/Components/Base/Button'
+import SectionHeading from '@/Components/Shared/SectionHeading.vue'
 import { useTwoFactorAuth } from '@/Composables'
 import type { ManageTwoFactorProps } from './types'
 

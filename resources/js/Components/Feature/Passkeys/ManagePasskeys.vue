@@ -1,31 +1,22 @@
 <template>
   <div v-if="canManagePasskeys" class="space-y-6">
-    <Heading
-      variant="small"
+    <SectionHeading
+      compact
       title="Passkeys"
       description="Manage your passkeys for passwordless sign-in"
     />
 
-    <div class="overflow-hidden rounded-lg border border-border">
-      <template v-if="passkeys.length">
-        <PasskeyItem
-          v-for="passkey in passkeys"
-          :key="passkey.id"
-          :passkey="passkey"
-          @remove="handleDelete"
-        />
-      </template>
+    <ItemGroup v-if="passkeys.length" class="overflow-hidden rounded-lg border">
+      <PasskeyItem v-for="passkey in passkeys" :key="passkey.id" :passkey="passkey" />
+    </ItemGroup>
 
-      <div v-else class="p-8 text-center">
-        <div class="mx-auto mb-4 flex h-14 w-14 items-center justify-center rounded-2xl bg-muted">
-          <KeyRound class="h-7 w-7 text-muted-foreground" />
-        </div>
-        <p class="font-medium">No passkeys yet</p>
-        <p class="mt-1 text-sm text-muted-foreground">
-          Add a passkey to sign in without a password
-        </p>
-      </div>
-    </div>
+    <Empty v-else class="border border-dashed">
+      <EmptyHeader>
+        <EmptyMedia variant="icon"><KeyRound aria-hidden="true" /></EmptyMedia>
+        <EmptyTitle>No passkeys yet</EmptyTitle>
+        <EmptyDescription>Add a passkey to sign in without a password.</EmptyDescription>
+      </EmptyHeader>
+    </Empty>
 
     <PasskeyRegister @success="handleRegisterSuccess" />
   </div>
@@ -34,25 +25,24 @@
 <script setup lang="ts">
 import { router } from '@inertiajs/vue3'
 import { KeyRound } from '@lucide/vue'
-import { PasskeyItem } from '@/Components/Feature/Passkeys'
-import { PasskeyRegister } from '@/Components/Feature/Passkeys'
-import { Heading } from '@/Components/Base/Heading'
+import { PasskeyItem, PasskeyRegister } from '@/Components/Feature/Passkeys'
+import {
+  Empty,
+  EmptyDescription,
+  EmptyHeader,
+  EmptyMedia,
+  EmptyTitle,
+} from '@/Components/Base/Empty'
+import { ItemGroup } from '@/Components/Base/Item'
+import SectionHeading from '@/Components/Shared/SectionHeading.vue'
 import type { ManagePasskeysProps } from './types'
-import { route } from 'ziggy-js'
 
 withDefaults(defineProps<ManagePasskeysProps>(), {
   canManagePasskeys: false,
   passkeys: () => [],
 })
 
-const handleDelete = (id: number, onError: () => void) => {
-  router.delete(route('passkey.destroy', id), {
-    preserveScroll: true,
-    onError,
-  })
-}
-
-const handleRegisterSuccess = () => {
-  router.reload()
+const handleRegisterSuccess = (): void => {
+  router.reload({ only: ['passkeys'] })
 }
 </script>
