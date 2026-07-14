@@ -11,7 +11,7 @@
         "laravel/fortify": "^1.37",
         "laravel/framework": "^13.8",
         "laravel/tinker": "^3.0",
-        "stacktrace/ui": "^0.11.3",
+        "stacktrace/ui": "^0.11.4",
         "tightenco/ziggy": "^2.6"
     },
     "require-dev": {
@@ -60,6 +60,7 @@
         ],
         "post-update-cmd": [
             "@php artisan install:features --ansi",
+            "@php artisan boost:update --ansi --no-interaction",
             "@php artisan vendor:publish --tag=laravel-assets --ansi --force"
         ],
         "post-root-package-install": [
@@ -68,7 +69,8 @@
         "post-create-project-cmd": [
             "@php artisan key:generate --ansi",
             "@php -r \"file_exists('database/database.sqlite') || touch('database/database.sqlite');\"",
-            "@php artisan migrate --graceful --ansi"
+            "@php artisan migrate --graceful --ansi",
+            "@php artisan boost:install --ansi --no-interaction"
         ],
         "pre-package-uninstall": [
             "Illuminate\\Foundation\\ComposerScripts::prePackageUninstall"

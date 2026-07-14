@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "b38a13da57eb8ae0a0b7bcdd027f32b8",
+    "content-hash": "d0db35f594fab59d20b72445ccebcb23",
     "packages": [
         {
             "name": "bacon/bacon-qr-code",
@@ -4239,16 +4239,16 @@
         },
         {
             "name": "stacktrace/ui",
-            "version": "v0.11.3",
+            "version": "v0.11.4",
             "source": {
                 "type": "git",
                 "url": "https://github.com/stacktracelabs/ui.git",
-                "reference": "bf7c048402ad61bbc86578d6a4b51d737b4be818"
+                "reference": "a17933c854ee9905874adc208c15d3ff98884724"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/stacktracelabs/ui/zipball/bf7c048402ad61bbc86578d6a4b51d737b4be818",
-                "reference": "bf7c048402ad61bbc86578d6a4b51d737b4be818",
+                "url": "https://api.github.com/repos/stacktracelabs/ui/zipball/a17933c854ee9905874adc208c15d3ff98884724",
+                "reference": "a17933c854ee9905874adc208c15d3ff98884724",
                 "shasum": ""
             },
             "require": {
@@ -4283,9 +4283,9 @@
             "description": "Component library for Laravel, Vue and Inertia.js based on shadcn-vue.",
             "support": {
                 "issues": "https://github.com/stacktracelabs/ui/issues",
-                "source": "https://github.com/stacktracelabs/ui/tree/v0.11.3"
+                "source": "https://github.com/stacktracelabs/ui/tree/v0.11.4"
             },
-            "time": "2026-07-12T07:57:32+00:00"
+            "time": "2026-07-14T12:06:02+00:00"
         },
         {
             "name": "symfony/clock",

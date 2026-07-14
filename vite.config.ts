@@ -32,4 +32,16 @@ export default defineConfig({
       '@stacktrace/ui': fileURLToPath(new URL('./vendor/stacktrace/ui', import.meta.url)),
     },
   },
+  build: {
+    rolldownOptions: {
+      // TODO: Remove when updating vueuse beyond v14.3.0
+      onLog(level, log, defaultHandler) {
+        if (log.code === 'INVALID_ANNOTATION') {
+          return
+        }
+
+        defaultHandler(level, log)
+      },
+    },
+  },
 })
