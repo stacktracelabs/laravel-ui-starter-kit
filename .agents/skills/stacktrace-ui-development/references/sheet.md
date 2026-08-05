@@ -8,6 +8,7 @@ Displays complementary content in a modal panel from an edge of the screen.
 
 - [Installation](#installation)
 - [Usage](#usage)
+- [Classic](#classic)
 - [Structure and focus](#structure-and-focus)
 - [Variants and state](#variants-and-state)
 
@@ -21,7 +22,7 @@ npx shadcn-vue@latest add @stacktrace/sheet
 
 ## Usage
 
-Use Sheet for a focused task or supporting details that should retain visual context from the current screen. Keep the task narrow; a large form, deep navigation, or content that should be linkable usually belongs on its own page.
+Use Sheet for a focused task or supporting details that should retain visual context from the current screen. Keep the task narrow; a large form, deep navigation, or content that should be linkable usually belongs on its own page. Sheets use the inset elevated surface and lighter blurred backdrop by default.
 
 ```vue
 <template>
@@ -49,6 +50,64 @@ Use Sheet for a focused task or supporting details that should retain visual con
         </div>
       </div>
       <SheetFooter>
+        <SheetClose as-child>
+          <Button type="button">
+            Save changes
+          </Button>
+        </SheetClose>
+      </SheetFooter>
+    </SheetContent>
+  </Sheet>
+</template>
+
+<script setup lang="ts">
+import { Button } from '@/Components/Button'
+import { Input } from '@/Components/Input'
+import { Label } from '@/Components/Label'
+import {
+  Sheet,
+  SheetClose,
+  SheetContent,
+  SheetDescription,
+  SheetFooter,
+  SheetHeader,
+  SheetTitle,
+  SheetTrigger,
+} from '@/Components/Sheet'
+</script>
+```
+
+## Classic
+
+Use `variant="default"` for the original edge-attached sheet with a darker, non-blurred backdrop.
+
+```vue
+<template>
+  <Sheet>
+    <SheetTrigger as-child>
+      <Button variant="outline">
+        Open classic sheet
+      </Button>
+    </SheetTrigger>
+    <SheetContent variant="default">
+      <SheetHeader>
+        <SheetTitle>Workspace settings</SheetTitle>
+        <SheetDescription>
+          Update the details shown to members of this workspace.
+        </SheetDescription>
+      </SheetHeader>
+      <div class="grid gap-4 px-4 py-2">
+        <div class="grid gap-2">
+          <Label for="sheet-workspace-name">Workspace name</Label>
+          <Input id="sheet-workspace-name" default-value="Just Create" />
+        </div>
+      </div>
+      <SheetFooter class="mt-auto">
+        <SheetClose as-child>
+          <Button type="button" variant="outline">
+            Cancel
+          </Button>
+        </SheetClose>
         <SheetClose as-child>
           <Button type="button">
             Save changes
@@ -135,25 +194,27 @@ const sheetSides = ['top', 'right', 'bottom', 'left'] as const
 
 ### Size
 
-Adjust width and the responsive maximum width with utility classes on `SheetContent`. Leave enough of the original screen visible to preserve context, and test narrow viewports before increasing the default size.
+Set `size` to `sm`, `md`, `lg`, or `full`. The default `sm` size matches the original sheet width, while `lg` uses half of the viewport on larger screens. For top and bottom sheets, the presets control height instead of width. Utility classes are merged last, so use `class` to refine or replace a preset for a specific workflow.
 
 ```vue
 <template>
-  <Sheet>
-    <SheetTrigger as-child>
-      <Button variant="outline">
-        Open wide sheet
-      </Button>
-    </SheetTrigger>
-    <SheetContent class="w-[400px] sm:max-w-lg">
-      <SheetHeader>
-        <SheetTitle>Custom width</SheetTitle>
-        <SheetDescription>
-          Set the sheet width with utility classes on SheetContent.
-        </SheetDescription>
-      </SheetHeader>
-    </SheetContent>
-  </Sheet>
+  <div class="flex flex-wrap gap-2">
+    <Sheet v-for="size in sheetSizes" :key="size">
+      <SheetTrigger as-child>
+        <Button class="uppercase" variant="outline">
+          {{ size }}
+        </Button>
+      </SheetTrigger>
+      <SheetContent :size="size">
+        <SheetHeader>
+          <SheetTitle>{{ sizeLabels[size] }} sheet</SheetTitle>
+          <SheetDescription>
+            This preset is ready for workflows that need {{ sizeDescriptions[size] }}.
+          </SheetDescription>
+        </SheetHeader>
+      </SheetContent>
+    </Sheet>
+  </div>
 </template>
 
 <script setup lang="ts">
@@ -166,6 +227,22 @@ import {
   SheetTitle,
   SheetTrigger,
 } from '@/Components/Sheet'
+
+const sheetSizes = ['sm', 'md', 'lg', 'full'] as const
+
+const sizeLabels = {
+  sm: 'Small',
+  md: 'Medium',
+  lg: 'Half-screen',
+  full: 'Full',
+}
+
+const sizeDescriptions = {
+  sm: 'a compact panel',
+  md: 'more room for forms',
+  lg: 'half of the viewport',
+  full: 'the available viewport',
+}
 </script>
 ```
 

@@ -8,6 +8,7 @@ A modal window layered over the page for focused content and actions.
 
 - [Installation](#installation)
 - [Usage](#usage)
+- [Classic](#classic)
 - [Structure and accessibility](#structure-and-accessibility)
 - [Controlled state](#controlled-state)
 - [Scrollable content](#scrollable-content)
@@ -22,7 +23,7 @@ npx shadcn-vue@latest add @stacktrace/dialog
 
 ## Usage
 
-Use Dialog for a short, focused workflow that needs context from the current screen, such as editing a record or reviewing details. Avoid moving a full page or a long multi-step task into a modal.
+Use Dialog for a short, focused workflow that needs context from the current screen, such as editing a record or reviewing details. Avoid moving a full page or a long multi-step task into a modal. Dialogs use the elevated surface and lighter blurred backdrop by default.
 
 ```vue
 <template>
@@ -62,6 +63,55 @@ import {
   DialogTrigger,
 } from '@/Components/Dialog'
 import { Field, FieldGroup, FieldLabel } from '@/Components/Field'
+import { Input } from '@/Components/Input'
+</script>
+```
+
+## Classic
+
+Use `variant="default"` for the original flat surface with a darker, non-blurred backdrop.
+
+```vue
+<template>
+  <Dialog>
+    <DialogTrigger as-child>
+      <Button variant="outline">Set spending limit</Button>
+    </DialogTrigger>
+    <DialogContent variant="default" class="sm:max-w-md">
+      <DialogHeader>
+        <DialogTitle>Spending limit</DialogTitle>
+        <DialogDescription>Set a monthly limit for this workspace.</DialogDescription>
+      </DialogHeader>
+      <FieldGroup>
+        <Field>
+          <FieldLabel for="spending-limit">Limit</FieldLabel>
+          <Input id="spending-limit" default-value="$300.00" />
+          <FieldDescription>
+            Workspace admins are notified as spending approaches the limit.
+          </FieldDescription>
+        </Field>
+      </FieldGroup>
+      <DialogFooter>
+        <DialogClose as-child><Button variant="outline">Cancel</Button></DialogClose>
+        <DialogClose as-child><Button>Save limit</Button></DialogClose>
+      </DialogFooter>
+    </DialogContent>
+  </Dialog>
+</template>
+
+<script setup lang="ts">
+import { Button } from '@/Components/Button'
+import {
+  Dialog,
+  DialogClose,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from '@/Components/Dialog'
+import { Field, FieldDescription, FieldGroup, FieldLabel } from '@/Components/Field'
 import { Input } from '@/Components/Input'
 </script>
 ```
