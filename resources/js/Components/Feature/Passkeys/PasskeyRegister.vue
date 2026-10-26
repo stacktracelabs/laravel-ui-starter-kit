@@ -23,7 +23,7 @@
         placeholder="e.g., MacBook Pro, iPhone"
         class="mt-1 block w-full border-foreground/20"
         :disabled="isLoading"
-        autofocus
+        v-focus
         required
       />
     </FormControl>

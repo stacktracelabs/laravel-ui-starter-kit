@@ -26,6 +26,14 @@ void createInertiaApp<SharedData>({
     color: '#4B5563',
   },
   withApp: (app, { page }) => {
+    app.directive<HTMLElement, boolean | undefined>('focus', {
+      mounted: (element, binding) => {
+        if (binding.value !== false) {
+          element.focus()
+        }
+      },
+    })
+
     app.use(ZiggyVue, {
       ...page.props.ziggy,
       location: new URL(page.props.ziggy.location),

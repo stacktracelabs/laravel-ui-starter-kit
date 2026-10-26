@@ -1,5 +1,6 @@
 import type { createHeadManager, Page, Router } from '@inertiajs/core'
 import type { SharedData } from '@/Types'
+import type { Directive } from 'vue'
 
 // Extend ImportMeta interface for Vite...
 declare module 'vite/client' {
@@ -29,6 +30,10 @@ declare module '@inertiajs/core' {
 }
 
 declare module '@vue/runtime-core' {
+  interface GlobalDirectives {
+    vFocus: Directive<HTMLElement, boolean | undefined>
+  }
+
   interface ComponentCustomProperties {
     $inertia: Router
     $page: Page

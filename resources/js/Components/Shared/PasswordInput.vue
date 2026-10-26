@@ -1,6 +1,7 @@
 <template>
   <InputGroup :class="props.class">
     <InputGroupInput
+      v-focus="props.autofocus"
       ref="inputRef"
       :type="isPasswordVisible ? 'text' : 'password'"
       v-bind="$attrs"
@@ -34,6 +35,7 @@ defineOptions({ inheritAttrs: false })
 
 const props = defineProps<{
   class?: HTMLAttributes['class']
+  autofocus?: boolean
 }>()
 
 const isPasswordVisible = ref(false)

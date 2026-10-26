@@ -29,6 +29,7 @@ return [
     'two_factor_otp_package' => 'vue-input-otp',
 
     'passkey_files' => [
+        'app/ViewModels/PasskeyViewModel.php',
         'resources/js/Components/Feature/Auth/index.ts',
         'resources/js/Components/Feature/Auth/PasskeyVerify.vue',
         'resources/js/Components/Feature/Passkeys/index.ts',

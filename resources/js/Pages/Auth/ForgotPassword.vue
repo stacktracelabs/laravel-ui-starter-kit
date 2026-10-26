@@ -15,7 +15,7 @@
           type="email"
           name="email"
           autocomplete="off"
-          autofocus
+          v-focus
           placeholder="email@example.com"
           required
           :aria-invalid="errors.email ? true : undefined"

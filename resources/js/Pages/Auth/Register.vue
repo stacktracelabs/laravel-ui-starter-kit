@@ -14,7 +14,7 @@
           id="name"
           type="text"
           required
-          autofocus
+          v-focus
           :tabindex="1"
           autocomplete="name"
           name="name"

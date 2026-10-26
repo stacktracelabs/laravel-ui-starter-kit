@@ -68,7 +68,7 @@
             name="recovery_code"
             type="text"
             placeholder="Enter recovery code"
-            :autofocus="showRecoveryInput"
+            v-focus
             required
             :aria-invalid="errors.recovery_code ? true : undefined"
           />

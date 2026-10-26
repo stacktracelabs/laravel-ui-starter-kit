@@ -15,7 +15,7 @@ function chiselRun(array $command, string $label): void
         label: $label,
         keepSummary: true,
         callback: function (Logger $logger) use ($command) {
-            $process = new Process($command);
+            $process = new Process($command, __DIR__);
             $process->run(function ($type, $line) use ($logger) {
                 $logger->line($line);
             });
@@ -36,6 +36,35 @@ function chiselRun(array $command, string $label): void
 
     if (! $process->isSuccessful()) {
         exit($process->getExitCode());
+    }
+}
+
+/**
+ * Determine whether the Laravel installer has disabled Node commands.
+ */
+function chiselSkipsNode(): bool
+{
+    return filter_var(
+        $_ENV['LARAVEL_INSTALLER_NO_NODE']
+            ?? $_SERVER['LARAVEL_INSTALLER_NO_NODE']
+            ?? getenv('LARAVEL_INSTALLER_NO_NODE'),
+        FILTER_VALIDATE_BOOL,
+    );
+}
+
+/**
+ * Remove unused frontend packages even when Node is unavailable.
+ */
+function chiselRemoveNpmPackages(Chisel $c, string ...$packages): void
+{
+    if (! chiselSkipsNode()) {
+        $c->npm()->remove(...$packages);
+
+        return;
+    }
+
+    foreach ($packages as $package) {
+        $c->file('package.json')->removeLinesContaining('"'.$package.'":');
     }
 }
 
@@ -168,11 +197,7 @@ return Chisel::script(__DIR__)
             $c->file('app/Models/User.php')
                 ->removeLinesContaining('@property string|null $two_factor_secret')
                 ->removeLinesContaining('@property string|null $two_factor_recovery_codes')
-                ->removeLinesContaining('@property Carbon|null $two_factor_confirmed_at')
-                ->replace(
-                    "#[Hidden(['password', 'two_factor_secret', 'two_factor_recovery_codes', 'remember_token'])]",
-                    "#[Hidden(['password', 'remember_token'])]",
-                );
+                ->removeLinesContaining('@property Carbon|null $two_factor_confirmed_at');
 
             $c->files('app/Http/Controllers/Settings/SecurityController.php')
                 ->replace(
@@ -180,8 +205,8 @@ return Chisel::script(__DIR__)
                     'use Illuminate\Http\Request;',
                 )
                 ->replace(
-                    'public function edit(TwoFactorAuthenticationRequest $request): Response',
-                    'public function edit(Request $request): Response',
+                    'public function edit(TwoFactorAuthenticationRequest $request)',
+                    'public function edit(Request $request)',
                 );
 
             $c->files(
@@ -198,7 +223,7 @@ return Chisel::script(__DIR__)
             )->removeSection('2fa');
 
             if ($paths['two_factor_otp_package'] !== null) {
-                $c->npm()->remove($paths['two_factor_otp_package']);
+                chiselRemoveNpmPackages($c, $paths['two_factor_otp_package']);
             }
 
             $c->files(...[
@@ -246,7 +271,7 @@ return Chisel::script(__DIR__)
                 $paths['confirm_password'],
             )->removeSection('passkeys');
 
-            $c->npm()->remove('@laravel/passkeys');
+            chiselRemoveNpmPackages($c, '@laravel/passkeys');
 
             $c->files(...[
                 ...$paths['passkey_files'],
@@ -267,8 +292,8 @@ return Chisel::script(__DIR__)
 
             $c->file('app/Http/Controllers/Settings/SecurityController.php')
                 ->replace(
-                    'public function edit(Request $request): Response',
-                    'public function edit(): Response',
+                    'public function edit(Request $request)',
+                    'public function edit()',
                 );
         },
     )
@@ -299,11 +324,20 @@ return Chisel::script(__DIR__)
         },
     )
     ->apply(function (Chisel $c): void {
-        chiselRun(['./vendor/bin/pint', '--dirty'], 'Laravel Pint');
-        $c->npm()->run('format');
-
         $c->file('composer.json')
             ->removeLinesContaining('"@php artisan install:features --ansi"');
+
+        chiselRun([PHP_BINARY, 'vendor/bin/pint'], 'Laravel Pint');
+
+        if (! chiselSkipsNode()) {
+            $c->npm()->run('check:fix');
+        }
+
+        if (file_exists(__DIR__.'/composer.lock')) {
+            chiselRun([
+                'composer', 'update', '--lock', '--no-install', '--no-scripts', '--no-interaction',
+            ], 'Update Composer lock file');
+        }
 
         $c->files(
             'app/Console/Commands/InstallFeaturesCommand.php',

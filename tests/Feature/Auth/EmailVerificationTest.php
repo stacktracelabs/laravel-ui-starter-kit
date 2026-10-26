@@ -2,7 +2,9 @@
 
 use App\Models\User;
 use Illuminate\Auth\Events\Verified;
+use Illuminate\Auth\Notifications\VerifyEmail;
 use Illuminate\Support\Facades\Event;
+use Illuminate\Support\Facades\Notification;
 use Illuminate\Support\Facades\URL;
 use Laravel\Fortify\Features;
 
@@ -16,6 +18,26 @@ test('email verification screen can be rendered', function () {
     $user = User::factory()->unverified()->create();
 
     actingAs($user)->get(route('verification.notice'))->assertOk();
+});
+
+test('unverified users are redirected from protected pages to email verification', function (string $route) {
+    actingAs(User::factory()->unverified()->create())
+        ->get(route($route))
+        ->assertRedirect(route('verification.notice'));
+})->with(['dashboard', 'security.edit', 'appearance.edit']);
+
+test('registration sends an email verification notification', function () {
+    skipUnlessFortifyHas(Features::registration());
+    Notification::fake();
+
+    $this->post(route('register.store'), [
+        'name' => 'Test User',
+        'email' => 'verification@example.com',
+        'password' => 'password',
+        'password_confirmation' => 'password',
+    ])->assertSessionHasNoErrors();
+
+    Notification::assertSentTo(User::where('email', 'verification@example.com')->firstOrFail(), VerifyEmail::class);
 });
 
 test('email can be verified', function () {

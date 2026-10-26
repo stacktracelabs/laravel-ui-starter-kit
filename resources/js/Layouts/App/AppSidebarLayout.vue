@@ -1,7 +1,7 @@
 <template>
   <AppShell variant="sidebar">
     <AppSidebar />
-    <AppContent variant="sidebar" class="overflow-x-hidden">
+    <AppContent variant="sidebar" class="overflow-x-clip">
       <AppSidebarHeader />
       <slot />
     </AppContent>

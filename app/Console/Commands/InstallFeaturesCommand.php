@@ -40,9 +40,11 @@ class InstallFeaturesCommand extends Command
         /** @var Script $script */
         $script = require base_path('chisel.php');
 
-        $providedAnswers = $this->option('answers') === null
-            ? []
-            : json_decode((string) $this->option('answers'), true, 512, JSON_THROW_ON_ERROR);
+        $answersOption = $this->option('answers');
+
+        $providedAnswers = is_string($answersOption)
+            ? json_decode($answersOption, true, 512, JSON_THROW_ON_ERROR)
+            : [];
 
         $answers = $script
             ->collectAnswers()
@@ -56,29 +58,52 @@ class InstallFeaturesCommand extends Command
             ->interactive($this->input->isInteractive())
             ->withAnswers($providedAnswers);
 
-        $this->installNodeDependencies();
+        $skipNode = $this->shouldSkipNode();
+
+        if (! $skipNode) {
+            $this->installNodeDependencies();
+        }
 
         $script->chisel($answers);
 
-        $this->buildAssets();
+        if (! $skipNode) {
+            $this->buildAssets();
+        }
 
         return self::SUCCESS;
     }
 
+    /**
+     * Let the Laravel installer run feature selection after its own setup.
+     */
     protected function shouldDeferInstallerHooks(): bool
     {
         if ($this->option('answers') !== null) {
             return false;
         }
 
-        return filter_var(
-            $_ENV['LARAVEL_INSTALLER_DEFER_HOOKS']
-                ?? $_SERVER['LARAVEL_INSTALLER_DEFER_HOOKS']
-                ?? getenv('LARAVEL_INSTALLER_DEFER_HOOKS'),
-            FILTER_VALIDATE_BOOL,
-        );
+        return $this->installerFlag('LARAVEL_INSTALLER_DEFER_HOOKS');
     }
 
+    /**
+     * Respect installations that intentionally skip Node dependencies.
+     */
+    protected function shouldSkipNode(): bool
+    {
+        return $this->installerFlag('LARAVEL_INSTALLER_NO_NODE');
+    }
+
+    /**
+     * Read a boolean flag supplied by the Laravel installer.
+     */
+    protected function installerFlag(string $name): bool
+    {
+        return filter_var($_ENV[$name] ?? $_SERVER[$name] ?? getenv($name), FILTER_VALIDATE_BOOL);
+    }
+
+    /**
+     * Install the selected package manager's dependencies.
+     */
     protected function installNodeDependencies(): void
     {
         $npm = Chisel::in(base_path())->npm();
@@ -90,6 +115,9 @@ class InstallFeaturesCommand extends Command
         );
     }
 
+    /**
+     * Compile the application's frontend assets.
+     */
     protected function buildAssets(): void
     {
         $npm = Chisel::in(base_path())->npm();

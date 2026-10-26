@@ -5,11 +5,15 @@ namespace App\Http\Controllers\Settings;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Settings\PasswordUpdateRequest;
 use App\Http\Requests\Settings\TwoFactorAuthenticationRequest;
+/* @chisel-passkeys */
 use App\ViewModels\PasskeyViewModel;
+/* @end-chisel-passkeys */
 use Illuminate\Validation\Rules\Password;
 use Inertia\Inertia;
 use Laravel\Fortify\Features;
+/* @chisel-passkeys */
 use Laravel\Passkeys\Passkey;
+/* @end-chisel-passkeys */
 use StackTrace\Ui\Facades\Toast;
 
 class SecurityController extends Controller
